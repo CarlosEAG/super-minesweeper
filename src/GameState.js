@@ -143,3 +143,59 @@ const init = (current) => {
         board
     };
 };
+
+//Can inner elements of a state be directly modified? or should they be modified in a clone of the state object?
+const _uncoverCells = (board, id) => {
+    const ids = [id];
+    const {cells} = board;
+    const outputIds = [];
+    //this should be checked outside before calling this function.
+    //if the clicked cell has a mine, the game should call Game Over instead of this function.
+    if(cells[id].hasMine){
+        return ids;
+    }
+
+    while(ids.length > 0) {
+        const currentId = ids.shift();
+        const currentCell = cells[currentId];
+        const {state, adjacentMines} = currentCell;
+        const invalidStates = [CELL_STATE.UNCOVERED, CELL_STATE.FLAGGED, CELL_STATE.QUESTION_MARKED];
+
+        if(invalidStates.includes(state)) {
+            return;
+        }
+        currentCell.state = CELL_STATE.UNCOVERED;
+        ids.push(...getAdjacentCells(board.size,id));
+    }
+};
+
+const getCellsToUncover = (board, id) => {
+    const ids = [id];
+    const {cells} = board;
+    const outputIds = [];
+
+    while(ids.length > 0) {
+        const currentId = ids.shift();
+        const cellState = cells[currentId].state;
+        const invalidStates = [CELL_STATE.UNCOVERED, CELL_STATE.FLAGGED, CELL_STATE.QUESTION_MARKED];
+        if(invalidStates.includes(cellState)) {
+            return;
+        }
+        outputIds.push(currentId);
+        ids.push(...getAdjacentCells(board.size,id));
+    }
+};
+
+//This alternative gets a list of the cells to be uncovered instead of directly modifying the board state,
+//then it returns a copy of the board that implements the state change
+const uncoverCells = (board, id) => {
+    const cellsToUncover = getCellsToUncover(board, id);
+    const newBoard = {
+        ...board,
+        cells: board.cells.map((cell, id) => ({
+            ...cell,
+            state: ids.includes(cellsToUncover) ? CELL_STATE.STATE_UNCOVERED : cell.state,
+        }))
+    }
+    return newBoard;
+}
