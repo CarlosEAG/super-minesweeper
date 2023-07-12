@@ -1,3 +1,4 @@
+import { GameContextProvider } from "./components/GameContextProvider"
 import { Test } from "./components/Test"
 
 function App() {
@@ -6,7 +7,9 @@ function App() {
       <div>
         Super Minesweeper Ultra HD Turbo!
       </div>
-      <Test/>
+      <GameContextProvider>
+        <Test/>
+      </GameContextProvider>
     </>
   )
 }

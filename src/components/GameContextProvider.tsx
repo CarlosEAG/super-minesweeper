@@ -7,8 +7,7 @@ interface GameContextProviderType {
 }
 export const GameContextProvider: React.FC<GameContextProviderType> = (props) => {
     const {children} = props;
-    const {gameState} = useGameContext();
-    return <GameContext.Provider value={gameState}>
+    return <GameContext.Provider value={useGameContext()}>
         {children}
     </GameContext.Provider>
 }

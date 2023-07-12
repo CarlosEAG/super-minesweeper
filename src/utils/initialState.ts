@@ -1,6 +1,7 @@
-import { GameStateType } from "../models/GameState";
+import { GAME_STATE, GameStateType } from "../models/GameState";
 
 export const initialGameState: GameStateType = {
+    state: GAME_STATE.MAIN,
     gameOver: false,
     win: false,
     initialized: false,

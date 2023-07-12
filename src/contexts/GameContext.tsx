@@ -1,28 +1,28 @@
 import { createContext } from "react";
-import { GameStateType } from "../models/GameState";
+import { initialGameState } from "../utils/initialState";
+import { Cell, CellID } from "../models/Cell";
+import { GameContextType } from "../hooks/useGameContext";
 
-const GameState: GameStateType = {
-    gameOver: false,
-    win: false,
-    initialized: false,
-    board: {
-        cells: [],
-        size: {
-            x: 0,
-            y:0,
-        },
-    },
-    settings: {
-        size:{
-            x:0,
-            y:0,
-        },
-        mines:10,
-        difficulty: 'beginner'
-    },
-};
+const initialGameContext: GameContextType = {
+    gameState:initialGameState,
+        init: ()=>{},
+        setMines: (clickedCellId: CellID)=>{},
+        uncover: (clickedCellId: CellID)=>{},
+        updateCell: <T extends keyof Cell>(id: CellID, property:T, value: Cell[T])=>{},
+        setGameOver: ()=>{},
+        setWin: ()=>{},
+        setBoardSize: ()=>{},
+        setDifficulty: ()=>{},
 
-export const GameContext = createContext(GameState);
+        getCell: (id:CellID):Cell=>({
+            id: 0,
+            hasMine: false,
+            adjacentMines: 0,
+            state: 0,
+        }),
+}
+
+export const GameContext = createContext(initialGameContext);
 
 
 
