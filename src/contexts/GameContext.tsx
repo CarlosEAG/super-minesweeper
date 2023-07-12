@@ -4,6 +4,7 @@ import { GameStateType } from "../models/GameState";
 const GameState: GameStateType = {
     gameOver: false,
     win: false,
+    initialized: false,
     board: {
         cells: [],
         size: {

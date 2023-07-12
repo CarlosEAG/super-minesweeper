@@ -3,19 +3,21 @@ import { GameStateType } from "../models/GameState";
 export const initialGameState: GameStateType = {
     gameOver: false,
     win: false,
+    initialized: false,
     board: {
         cells:[],
         size:{
-            x: 0,
-            y:0
+            x: 10,
+            y:10
         }
     },
     settings: {
         size: {
-            x: 0,
-            y: 0
+            x: 10,
+            y: 10
         },
-        mines: 0
+        mines: 10,
+        difficulty: "beginner"
+
     },
-    difficulty: "woops"
 }

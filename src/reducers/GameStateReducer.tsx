@@ -12,7 +12,7 @@ export const GameStateReducer = (state: GameStateType, action: GameActionType ):
     switch(type) {
         case GAME_STATE_ACTION.INITIALIZE: {
             const board = generateBoard(state.settings.size)
-            return {...state, board};
+            return {...state, board, initialized: true};
         }
         case GAME_STATE_ACTION.PLACE_MINES:{
             const {board, settings:{size, mines}} = state;
