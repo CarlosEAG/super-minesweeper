@@ -16,8 +16,8 @@ export const GameStateReducer = (state: GameStateType, action: GameActionType ):
         }
         case GAME_STATE_ACTION.PLACE_MINES:{
             const {board, settings:{size, mines}} = state;
-            const {clickedId} = payload;
-            const ids = getCellsToBeMined(board, mines, clickedId);
+            const {clickedCellId} = payload;
+            const ids = getCellsToBeMined(board, mines, clickedCellId);
             const adjacentIds = ids.flatMap(id => getAdjacentCells(size, id));
             const adjacentMinesPerId = countOccurrences(adjacentIds);
             return {
@@ -39,13 +39,14 @@ export const GameStateReducer = (state: GameStateType, action: GameActionType ):
             };
         }
         case GAME_STATE_ACTION.UNCOVER_CELLS: {
-            const {clickedId} = payload;
-            const cellsToUncover = getCellsToUncover(state.board, clickedId);
+            const {clickedCellId} = payload;
+            debugger;
+            const cellsToUncover = getCellsToUncover(state.board, clickedCellId);
             const board = {
                 ...state.board,
-                cells: state.board.cells.map((cell, id) => ({
+                cells: state.board.cells.map(cell => ({
                     ...cell,
-                    state: cellsToUncover.includes(id) ? CELL_STATE.UNCOVERED : cell.state,
+                    state: cellsToUncover.includes(cell.id) ? CELL_STATE.UNCOVERED : cell.state,
                 })),
             }
             return {...state, board};
