@@ -65,7 +65,19 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
             };
         }
         case GAME_STATE_ACTION.GAME_OVER: {
-            return {...gameState, state: GAME_STATE.GAMEOVER, gameOver: true};
+            return {
+                ...gameState,
+                state: GAME_STATE.GAMEOVER,
+                board: {
+                    ...gameState.board,
+                    cells: gameState.board.cells.map(cell => 
+                        cell.hasMine 
+                        ? {...cell, state: CELL_STATE.UNCOVERED} 
+                        : cell
+                        ),
+                },
+                gameOver: true
+            };
         }
         case GAME_STATE_ACTION.WIN: {
             return {...gameState, state: GAME_STATE.WIN, win: true};
