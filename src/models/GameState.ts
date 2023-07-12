@@ -10,6 +10,6 @@ export interface GameStateType {
             y: number;
         };
         mines: number;
+        difficulty: 'beginner' | 'intermediate' | 'expert' | 'custom'
     };
-    difficulty: string;
 }

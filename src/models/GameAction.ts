@@ -1,8 +1,14 @@
 export const enum GAME_STATE_ACTION {
     INITIALIZE,
-    UPDATE_CELLS,
+    PLACE_MINES,
+    UPDATE_CELL,
     GAME_OVER,
     WIN,
+    SET_MINES,
+    UNCOVER_CELLS,
+    ADD_ADJACENT_MINE,
+    SIZE_UPDATE,
+    DIFFICULTY_UPDATE,
 }
 
 export interface GameActionType {

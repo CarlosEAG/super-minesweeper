@@ -1,32 +1,27 @@
-import { createContext, useReducer } from "react";
-import { GameStateReducer } from "../api/reducers/GameStateReducer";
+import { createContext } from "react";
+import { GameStateType } from "../models/GameState";
 
-const GameState = {
+const GameState: GameStateType = {
     gameOver: false,
     win: false,
     board: {
         cells: [],
         size: {
-            x: 10,
-            y:10,
+            x: 0,
+            y:0,
         },
     },
     settings: {
         size:{
-            x:10,
-            y:10,
+            x:0,
+            y:0,
         },
         mines:10,
+        difficulty: 'beginner'
     },
-    difficulty: 'beginer',
 };
 
 export const GameContext = createContext(GameState);
-
-const useGameAPI = () => {
-
-    const [state, dispatch] = useReducer(GameStateReducer, GameContext);
-}
 
 
 
