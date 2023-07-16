@@ -5,7 +5,7 @@ import { GAME_STATE_ACTION } from "../models/GameAction";
 import { Cell, CellID } from "../models/Cell";
 
 
-export const useGameContext = () => {
+export const useGameReducer = () => {
 
     const [gameState, dispatch] = useReducer(GameStateReducer,initialGameState);
 
@@ -59,4 +59,4 @@ export const useGameContext = () => {
     }
 }
 
-export type GameContextType = ReturnType<typeof useGameContext>
+export type GameReducerType = ReturnType<typeof useGameReducer>

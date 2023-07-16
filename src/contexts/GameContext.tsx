@@ -1,9 +1,9 @@
 import { createContext } from "react";
 import { initialGameState } from "../utils/initialState";
 import { Cell, CellID } from "../models/Cell";
-import { GameContextType } from "../hooks/useGameContext";
+import { GameReducerType } from "../hooks/useGameReducer";
 
-const initialGameContext: GameContextType = {
+const initialGameContext: GameReducerType = {
     gameState:initialGameState,
         init: ()=>{},
         setMines: (clickedCellId: CellID)=>{},

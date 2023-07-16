@@ -1,8 +1,9 @@
+import { useContext } from "react";
+import { GameContext } from "../contexts/GameContext";
 import { Cell, CellID } from "../models/Cell";
-import { useGameContext } from "./useGameContext"
 
 export const useBoardCell = () => {
-    const {gameState} = useGameContext();
+    const {gameState} = useContext(GameContext);
     const getCell = (id:CellID): Cell => {
         return gameState.board.cells[id];
     };
