@@ -1,7 +1,6 @@
-import { useContext } from "react";
 import { CELL_STATE, CellID } from "../models/Cell"
-import { GameContext } from "../contexts/GameContext";
 import { GAME_STATE } from "../models/GameState";
+import { useGameContext } from "../hooks/useGameContext";
 
 interface CellProps {
     cellId: CellID;
@@ -12,7 +11,7 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
         getCell,uncover,
         setMines, 
         setGameOver,
-    } = useContext(GameContext);
+    } = useGameContext();
     const {state, hasMine, adjacentMines} = getCell(cellId); //board.cells[props.cellId-1];
     const handleClick = (event : React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if(gameState.state === GAME_STATE.GAMEOVER){

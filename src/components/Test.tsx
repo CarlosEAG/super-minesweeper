@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import "./Test.css"
 import { Cell } from "./Cell";
-import { GameContext } from "../contexts/GameContext";
 import { GAME_STATE } from "../models/GameState";
+import { useGameContext } from "../hooks/useGameContext";
 
 const displayStates = [
     GAME_STATE.INITIALIZED,
@@ -13,7 +13,7 @@ export const Test = () => {
     const { 
         gameState: {state, board:{size}},
         init
-    } = useContext(GameContext);
+    } = useGameContext();
     useEffect(()=>{
         init();
     },[]);
