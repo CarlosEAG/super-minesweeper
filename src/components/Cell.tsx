@@ -1,6 +1,24 @@
 import { CELL_STATE, CellID } from "../models/Cell"
 import { GAME_STATE } from "../models/GameState";
 import { useGameContext } from "../hooks/useGameContext";
+import { motion } from "framer-motion";
+
+const variants = {
+    covered: { 
+        opacity: 1,
+        scale: 1,
+        rotate: -90,
+    },
+    uncovered: {
+        opacity: 1,
+        rotate: 0,
+        scale: [0.8, 1.5, 1],
+        times: [0.1,0.3,0.1],
+        transition: {
+            duration: 0.2,
+        }
+    },
+  }
 
 interface CellProps {
     cellId: CellID;
@@ -27,7 +45,10 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
         uncover(cellId);
     }
     
-    return <div 
+    return <motion.div 
+        initial={false}
+        animate={state === CELL_STATE.COVERED ? "covered" : "uncovered"}
+        variants={variants}
         className={state === CELL_STATE.COVERED ? 'cell' : 'uncoveredCell'}
         onClick={handleClick}
         >
@@ -35,5 +56,5 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
             {state === CELL_STATE.QUESTION_MARKED && '?'}
             {state === CELL_STATE.UNCOVERED && !hasMine && (adjacentMines||'')}
             {state === CELL_STATE.UNCOVERED && hasMine && 'X'}
-        </div>
+        </motion.div>
 }
