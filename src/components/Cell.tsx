@@ -29,6 +29,9 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
     }
     const handleContextMenuEvent = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.preventDefault();
+        if(gameState.state === GAME_STATE.GAMEOVER){
+            return;
+        }
         cycleCell(cellId);
     }
     
@@ -37,9 +40,12 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
         onClick={handleClickEvent}
         onContextMenu={handleContextMenuEvent}
         >
+            {/*gameState.state !== GAME_STATE.GAMEOVER && state === CELL_STATE.FLAGGED && 'F'*/}
+            {/*gameState.state === GAME_STATE.GAMEOVER && state === CELL_STATE.FLAGGED && hasMine && 'F'*/}
+            {/*gameState.state === GAME_STATE.GAMEOVER && state === CELL_STATE.FLAGGED && !hasMine && 'X'*/}
             {state === CELL_STATE.FLAGGED && 'F'}
             {state === CELL_STATE.QUESTION_MARKED && '?'}
             {state === CELL_STATE.UNCOVERED && !hasMine && (adjacentMines||'')}
-            {state === CELL_STATE.UNCOVERED && hasMine && 'X'}
+            {state === CELL_STATE.UNCOVERED && hasMine && 'O'}
         </div>
 }
