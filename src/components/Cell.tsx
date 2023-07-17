@@ -2,12 +2,17 @@ import { CELL_STATE, CellID } from "../models/Cell"
 import { GAME_STATE } from "../models/GameState";
 import { useGameContext } from "../hooks/useGameContext";
 import { motion } from "framer-motion";
-
+const d= 0.02;
 const variants = {
     covered: { 
         opacity: 1,
         scale: 1,
-        rotate: -90,
+        /*
+        transition: { type: "spring", stiffness: 300, damping: 24, duration: d, 
+        delayChildren: d,
+        staggerChildren: d,}
+        //*/
+        //rotate: -90,
     },
     uncovered: {
         opacity: 1,
@@ -17,6 +22,11 @@ const variants = {
         transition: {
             duration: 0.2,
         }
+    },
+    hidden: {
+        opacity: 0,
+        scale:0,
+        rotate: 90
     },
   }
 
@@ -44,9 +54,9 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
         }
         uncover(cellId);
     }
-    
+
     return <motion.div 
-        initial={false}
+        //initial={"hidden"}
         animate={state === CELL_STATE.COVERED ? "covered" : "uncovered"}
         variants={variants}
         className={state === CELL_STATE.COVERED ? 'cell' : 'uncoveredCell'}
