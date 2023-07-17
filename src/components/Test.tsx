@@ -48,15 +48,24 @@ const displayStates = [
     GAME_STATE.INITIALIZED,
     GAME_STATE.GAMEOVER,
     GAME_STATE.MINESPLACED,
+    GAME_STATE.WIN,
 ]
 export const Test = () => {
     const { 
-        gameState: {state, board:{size}},
-        init
+        gameState: {state, cellsLeft, settings:{mines},board:{size}},
+        init,
+        setWin,
     } = useGameContext();
     useEffect(()=>{
         init();
     },[]);
+
+    useEffect(()=>{
+        if(cellsLeft === mines){
+            setWin();
+        }
+        
+    },[cellsLeft])
 
     const board = [...Array(size.y)].map((_, row) => 
         [...Array(size.x)].map((_, cell) => row*size.x+cell+1)

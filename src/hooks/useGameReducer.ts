@@ -4,12 +4,29 @@ import { initialGameState } from "./../utils/initialState";
 import { GAME_STATE_ACTION } from "../models/GameAction";
 import { Cell, CellID } from "../models/Cell";
 import { useTimer } from "./useTimer";
-
+//import { useSound } from "./useSound";
+import uncovered from "../assets/sounds/ClickSquare.wav";
+import mine from "../assets/sounds/BombExplode.wav";
+import flagged from "../assets/sounds/SquareFlagged.wav";
+import win from "../assets/sounds/AllSquaresCleared.wav";
+import { useSoundPool } from "./useSoundPool";
 
 export const useGameReducer = () => {
 
     const [gameState, dispatch] = useReducer(GameStateReducer,initialGameState);
     const time = useTimer();
+
+    const soundPool = useSoundPool([
+        uncovered,
+        mine,
+        flagged,
+        win
+    ]);
+    /*
+    const uncoverSound = useSound(aud);
+    const mineFound = useSound(mine);
+    const flag = useSound(flagged);
+    //*/
     const init = useCallback(() => {
         time.reset();
         time.start();
@@ -21,6 +38,8 @@ export const useGameReducer = () => {
     },[]);
 
     const uncover = useCallback((clickedCellId: CellID)=>{
+        debugger;
+        soundPool.play(uncovered);
         dispatch({type:GAME_STATE_ACTION.UNCOVER_CELLS, payload: {clickedCellId}});
     },[]);
 
@@ -30,10 +49,13 @@ export const useGameReducer = () => {
 
     const setGameOver = useCallback(()=>{
         time.stop();
+        soundPool.play(mine);
         dispatch({type: GAME_STATE_ACTION.GAME_OVER});
     },[]);
 
     const setWin = useCallback(()=>{
+        time.stop();
+        soundPool.play(win);
         dispatch({type: GAME_STATE_ACTION.WIN});
     },[]);
 
@@ -50,6 +72,7 @@ export const useGameReducer = () => {
     };
 
     const cycleCell = (clickedCellId: CellID) => {
+        soundPool.play(flagged);
         return dispatch({type: GAME_STATE_ACTION.CYCLE_CELL, payload: {clickedCellId}})
     }
 

@@ -17,7 +17,7 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
     switch(type) {
         case GAME_STATE_ACTION.INITIALIZE: {
             const board = generateBoard(gameState.settings.size)
-            return {...gameState, flags: gameState.settings.mines, state: GAME_STATE.INITIALIZED, board, initialized: true};
+            return {...gameState, flags: gameState.settings.mines, cellsLeft: gameState.settings.size.x * gameState.settings.size.y, state: GAME_STATE.INITIALIZED, board, initialized: true};
         }
         case GAME_STATE_ACTION.PLACE_MINES:{
             const {board, settings:{size, mines}} = gameState;
@@ -49,6 +49,7 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
             const {clickedCellId} = payload;
             debugger;
             const cellsToUncover = getCellsToUncover(gameState.board, clickedCellId);
+            const cellsLeft = gameState.cellsLeft - cellsToUncover.length;
             const board = {
                 ...gameState.board,
                 cells: gameState.board.cells.map(cell => ({
@@ -56,7 +57,7 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
                     state: cellsToUncover.includes(cell.id) ? CELL_STATE.UNCOVERED : cell.state,
                 })),
             }
-            return {...gameState, board};
+            return {...gameState, cellsLeft, board};
         }
         case GAME_STATE_ACTION.UPDATE_CELL: {
             const {id, property, value} = payload;

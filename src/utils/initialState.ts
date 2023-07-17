@@ -13,6 +13,7 @@ export const initialGameState: GameStateType = {
         }
     },
     flags: 10,
+    cellsLeft: 100,
     settings: {
         size: {
             x: 10,
