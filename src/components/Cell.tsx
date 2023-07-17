@@ -8,12 +8,13 @@ interface CellProps {
 export const Cell: React.FC<CellProps> = ({cellId}) => {    
     const {
         gameState,
-        getCell,uncover,
+        getCell,cycleCell,uncover,
         setMines, 
         setGameOver,
     } = useGameContext();
     const {state, hasMine, adjacentMines} = getCell(cellId); //board.cells[props.cellId-1];
-    const handleClick = (event : React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const handleClickEvent = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        event.preventDefault();
         if(gameState.state === GAME_STATE.GAMEOVER){
             return;
         }
@@ -26,14 +27,25 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
         }
         uncover(cellId);
     }
+    const handleContextMenuEvent = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        event.preventDefault();
+        if(gameState.state === GAME_STATE.GAMEOVER){
+            return;
+        }
+        cycleCell(cellId);
+    }
     
     return <div 
         className={state === CELL_STATE.COVERED ? 'cell' : 'uncoveredCell'}
-        onClick={handleClick}
+        onClick={handleClickEvent}
+        onContextMenu={handleContextMenuEvent}
         >
+            {/*gameState.state !== GAME_STATE.GAMEOVER && state === CELL_STATE.FLAGGED && 'F'*/}
+            {/*gameState.state === GAME_STATE.GAMEOVER && state === CELL_STATE.FLAGGED && hasMine && 'F'*/}
+            {/*gameState.state === GAME_STATE.GAMEOVER && state === CELL_STATE.FLAGGED && !hasMine && 'X'*/}
             {state === CELL_STATE.FLAGGED && 'F'}
             {state === CELL_STATE.QUESTION_MARKED && '?'}
             {state === CELL_STATE.UNCOVERED && !hasMine && (adjacentMines||'')}
-            {state === CELL_STATE.UNCOVERED && hasMine && 'X'}
+            {state === CELL_STATE.UNCOVERED && hasMine && 'O'}
         </div>
 }

@@ -12,6 +12,7 @@ export const initialGameState: GameStateType = {
             y:10
         }
     },
+    flags: 10,
     settings: {
         size: {
             x: 10,

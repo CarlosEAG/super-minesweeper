@@ -3,13 +3,16 @@ import { GameStateReducer } from "./../reducers/GameStateReducer";
 import { initialGameState } from "./../utils/initialState";
 import { GAME_STATE_ACTION } from "../models/GameAction";
 import { Cell, CellID } from "../models/Cell";
+import { useTimer } from "./useTimer";
 
 
 export const useGameReducer = () => {
 
     const [gameState, dispatch] = useReducer(GameStateReducer,initialGameState);
-
+    const time = useTimer();
     const init = useCallback(() => {
+        time.reset();
+        time.start();
         dispatch({type: GAME_STATE_ACTION.INITIALIZE});
     },[]);
 
@@ -26,6 +29,7 @@ export const useGameReducer = () => {
     },[]);
 
     const setGameOver = useCallback(()=>{
+        time.stop();
         dispatch({type: GAME_STATE_ACTION.GAME_OVER});
     },[]);
 
@@ -45,6 +49,10 @@ export const useGameReducer = () => {
         return gameState.board.cells[id-1];
     };
 
+    const cycleCell = (clickedCellId: CellID) => {
+        return dispatch({type: GAME_STATE_ACTION.CYCLE_CELL, payload: {clickedCellId}})
+    }
+
     return {
         gameState,
         init,
@@ -56,6 +64,8 @@ export const useGameReducer = () => {
         setBoardSize,
         setDifficulty,
         getCell,
+        cycleCell,
+        time,
     }
 }
 
