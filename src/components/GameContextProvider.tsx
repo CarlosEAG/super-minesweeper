@@ -1,4 +1,3 @@
-import { ReactPropTypes, useContext } from "react";
 import { GameContext } from "../contexts/GameContext";
 import { useGameReducer } from "../hooks/useGameReducer";
 
