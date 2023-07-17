@@ -49,6 +49,10 @@ export const useGameReducer = () => {
         return gameState.board.cells[id-1];
     };
 
+    const cycleCell = (clickedCellId: CellID) => {
+        return dispatch({type: GAME_STATE_ACTION.CYCLE_CELL, payload: {clickedCellId}})
+    }
+
     return {
         gameState,
         init,
@@ -60,6 +64,7 @@ export const useGameReducer = () => {
         setBoardSize,
         setDifficulty,
         getCell,
+        cycleCell,
         time,
     }
 }

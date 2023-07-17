@@ -9,6 +9,7 @@ export const enum GAME_STATE_ACTION {
     ADD_ADJACENT_MINE,
     SIZE_UPDATE,
     DIFFICULTY_UPDATE,
+    CYCLE_CELL,
 }
 
 export interface GameActionType {

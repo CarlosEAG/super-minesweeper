@@ -1,3 +1,4 @@
+import { Flags } from "./components/Flags"
 import { GameContextProvider } from "./components/GameContextProvider"
 import { Smiley } from "./components/Smiley"
 import { Test } from "./components/Test"
@@ -10,6 +11,7 @@ function App() {
         Super Minesweeper Ultra HD Turbo!
       </div>
       <GameContextProvider>
+        <Flags/>
         <Test/>
         <Smiley/>
         <Timer/>
