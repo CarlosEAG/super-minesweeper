@@ -40,13 +40,12 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
         getCell,cycleCell,uncover,
         setMines, 
         setGameOver,
-        flagSound,
+        audio,
     } = useGameContext();
     const {state, hasMine, adjacentMines} = getCell(cellId); //board.cells[props.cellId-1];
     useEffect(()=>{
         if(state !== CELL_STATE.UNCOVERED && state != CELL_STATE.COVERED){
-            debugger;
-            flagSound.play();
+            audio.playFlagged();
         }
     },[state]);
     const handleClickEvent = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

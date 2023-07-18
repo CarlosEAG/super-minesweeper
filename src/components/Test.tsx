@@ -55,10 +55,7 @@ export const Test = () => {
         gameState: {state, cellsLeft, lastAmountUncovered, settings:{mines},board:{size}},
         init,
         setWin,
-        uncoverSound,
-        uncoverManySound,
-        winSound,
-        gameOverSound,
+        audio,
     } = useGameContext();
     useEffect(()=>{
         init();
@@ -66,11 +63,11 @@ export const Test = () => {
 
     useEffect(()=>{
         if(state === GAME_STATE.GAMEOVER){
-            gameOverSound.play();
+            audio.playGameover();
             return;
         }
         if(state === GAME_STATE.WIN){
-            winSound.play();
+            audio.playWin();
             return;
         }
 
@@ -83,9 +80,9 @@ export const Test = () => {
             return;
         }
         if(lastAmountUncovered>10){
-            uncoverManySound.play();
+            audio.playUncoveredMany();
         } else {
-            uncoverSound.play();
+            audio.playUncovered();
         }
         
     },[cellsLeft,state]);
