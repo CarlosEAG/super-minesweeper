@@ -4,7 +4,7 @@ import { initialGameState } from "./../utils/initialState";
 import { GAME_STATE_ACTION } from "../models/GameAction";
 import { Cell, CellID } from "../models/Cell";
 import { useTimer } from "./useTimer";
-import { useSound } from "./useSound";
+//import { useSound } from "./useSound";
 import uncovered from "../assets/sounds/ClickSquare.wav";
 import uncovered2 from "../assets/sounds/ClickSquare2.wav";
 import mine from "../assets/sounds/BombExplode.wav";
@@ -16,17 +16,25 @@ export const useGameReducer = () => {
 
     const [gameState, dispatch] = useReducer(GameStateReducer,initialGameState);
     const time = useTimer();
+    /*
     const uncoverSound = useSound(uncovered);
     const uncoverManySound = useSound(uncovered2);
     const flagSound = useSound(flagged);
     const winSound = useSound(win);
     const gameOverSound = useSound(mine);
+    //*/
     const soundPool = useSoundPool([
         uncovered,
+        uncovered2,
         mine,
         flagged,
         win
     ]);
+    const uncoverSound = {play:() => soundPool.play(uncovered)}
+    const uncoverManySound =  {play: () => soundPool.play(uncovered2)}
+    const flagSound =  {play: () => soundPool.play(flagged)}
+    const winSound =  {play: () => soundPool.play(win)}
+    const gameOverSound =  {play: () => soundPool.play(mine)}
     /*
     const uncoverSound = useSound(aud);
     const mineFound = useSound(mine);
