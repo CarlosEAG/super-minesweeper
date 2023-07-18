@@ -4,8 +4,9 @@ import { initialGameState } from "./../utils/initialState";
 import { GAME_STATE_ACTION } from "../models/GameAction";
 import { Cell, CellID } from "../models/Cell";
 import { useTimer } from "./useTimer";
-//import { useSound } from "./useSound";
+import { useSound } from "./useSound";
 import uncovered from "../assets/sounds/ClickSquare.wav";
+import uncovered2 from "../assets/sounds/ClickSquare2.wav";
 import mine from "../assets/sounds/BombExplode.wav";
 import flagged from "../assets/sounds/SquareFlagged.wav";
 import win from "../assets/sounds/AllSquaresCleared.wav";
@@ -15,7 +16,11 @@ export const useGameReducer = () => {
 
     const [gameState, dispatch] = useReducer(GameStateReducer,initialGameState);
     const time = useTimer();
-
+    const uncoverSound = useSound(uncovered);
+    const uncoverManySound = useSound(uncovered2);
+    const flagSound = useSound(flagged);
+    const winSound = useSound(win);
+    const gameOverSound = useSound(mine);
     const soundPool = useSoundPool([
         uncovered,
         mine,
@@ -39,7 +44,7 @@ export const useGameReducer = () => {
 
     const uncover = useCallback((clickedCellId: CellID)=>{
         debugger;
-        soundPool.play(uncovered);
+        //soundPool.play(uncovered);
         dispatch({type:GAME_STATE_ACTION.UNCOVER_CELLS, payload: {clickedCellId}});
     },[]);
 
@@ -49,13 +54,13 @@ export const useGameReducer = () => {
 
     const setGameOver = useCallback(()=>{
         time.stop();
-        soundPool.play(mine);
+        //soundPool.play(mine);
         dispatch({type: GAME_STATE_ACTION.GAME_OVER});
     },[]);
 
     const setWin = useCallback(()=>{
         time.stop();
-        soundPool.play(win);
+        //soundPool.play(win);
         dispatch({type: GAME_STATE_ACTION.WIN});
     },[]);
 
@@ -72,7 +77,7 @@ export const useGameReducer = () => {
     };
 
     const cycleCell = (clickedCellId: CellID) => {
-        soundPool.play(flagged);
+        //soundPool.play(flagged);
         return dispatch({type: GAME_STATE_ACTION.CYCLE_CELL, payload: {clickedCellId}})
     }
 
@@ -89,6 +94,12 @@ export const useGameReducer = () => {
         getCell,
         cycleCell,
         time,
+
+        uncoverSound,
+        uncoverManySound,
+        flagSound,
+        winSound,
+        gameOverSound,
     }
 }
 

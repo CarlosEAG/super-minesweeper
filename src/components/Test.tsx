@@ -52,20 +52,44 @@ const displayStates = [
 ]
 export const Test = () => {
     const { 
-        gameState: {state, cellsLeft, settings:{mines},board:{size}},
+        gameState: {state, cellsLeft, lastAmountUncovered, settings:{mines},board:{size}},
         init,
         setWin,
+        uncoverSound,
+        uncoverManySound,
+        winSound,
+        gameOverSound,
     } = useGameContext();
     useEffect(()=>{
         init();
     },[]);
 
     useEffect(()=>{
+        if(state === GAME_STATE.GAMEOVER){
+            gameOverSound.play();
+            return;
+        }
+        if(state === GAME_STATE.WIN){
+            winSound.play();
+            return;
+        }
+
         if(cellsLeft === mines){
             setWin();
+            return;
+        }
+
+        if(lastAmountUncovered === 0) {
+            return;
+        }
+        if(lastAmountUncovered>10){
+            uncoverManySound.play();
+        } else {
+            uncoverSound.play();
         }
         
-    },[cellsLeft])
+    },[cellsLeft,state]);
+
 
     const board = [...Array(size.y)].map((_, row) => 
         [...Array(size.x)].map((_, cell) => row*size.x+cell+1)

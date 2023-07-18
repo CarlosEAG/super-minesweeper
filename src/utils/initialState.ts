@@ -14,6 +14,7 @@ export const initialGameState: GameStateType = {
     },
     flags: 10,
     cellsLeft: 100,
+    lastAmountUncovered: 0,
     settings: {
         size: {
             x: 10,
