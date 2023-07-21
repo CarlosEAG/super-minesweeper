@@ -2,13 +2,18 @@ import { useState } from "react"
 import { Flags } from "./components/Flags"
 import { GameContextProvider } from "./components/GameContextProvider"
 import { Smiley } from "./components/Smiley"
-import { Test } from "./components/Test"
+import { Board } from "./components/Board"
 import { Timer } from "./components/Timer"
+import { ThemeProvider, createTheme } from "@mui/material"
+
+const theme = createTheme({
+  spacing: 3,
+});
 
 function App() {
   const [start, setStart] = useState(false);
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <div>
         Super Minesweeper Ultra HD Turbo!
       </div>
@@ -19,13 +24,13 @@ function App() {
           </div>
         :<>
           <Flags/>
-          <Test/>
+          <Board/>
           <Smiley/>
           <Timer/>
         </>
         }
       </GameContextProvider>
-    </>
+    </ThemeProvider>
   )
 }
 

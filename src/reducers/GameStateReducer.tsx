@@ -47,7 +47,6 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
         }
         case GAME_STATE_ACTION.UNCOVER_CELLS: {
             const {clickedCellId} = payload;
-            debugger;
             const cellsToUncover = getCellsToUncover(gameState.board, clickedCellId);
             const lastAmountUncovered = cellsToUncover.length;
             const cellsLeft = gameState.cellsLeft - lastAmountUncovered;
@@ -79,7 +78,7 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
                 board: {
                     ...gameState.board,
                     cells: gameState.board.cells.map(cell => 
-                        cell.hasMine 
+                        cell.hasMine && cell.state !== CELL_STATE.FLAGGED
                         ? {...cell, state: CELL_STATE.UNCOVERED} 
                         : cell
                         ),
@@ -99,7 +98,6 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
             return {...gameState, settings: {...gameState.settings, difficulty}};
         }
         case GAME_STATE_ACTION.CYCLE_CELL: {
-            debugger;
             const {clickedCellId} = payload;
             const currentState = gameState.board.cells[clickedCellId-1].state;
             if(currentState === CELL_STATE.UNCOVERED){
