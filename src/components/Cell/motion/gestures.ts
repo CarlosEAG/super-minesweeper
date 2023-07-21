@@ -6,10 +6,12 @@ export const gestures: Record<string,Variant> = {
         opacity: [0.5,1],
         transition:{
             type:'spring',
-        },  
+        }, 
+        borderRadius:0, 
     },
     whileTap:{
         scale:0.95,
+        borderRadius:3,
         transition:{
             duration:0.01,
             type:'spring',
