@@ -4,8 +4,11 @@ import { GameContextProvider } from "./components/GameContextProvider"
 import { Smiley } from "./components/Smiley"
 import { Board } from "./components/Board"
 import { Timer } from "./components/Timer"
-import { Container, CssBaseline, Grid, ThemeProvider, Typography, createTheme } from "@mui/material"
+import CssBaseline from "@mui/material/CssBaseline"
+import { Container, Grid, ThemeProvider, Typography, createTheme } from "@mui/material"
 import Teko from "./assets/fonts/Teko-Regular.ttf"
+import { Dial } from "./components/Dial"
+
 const theme = createTheme({
   spacing: 3,
   palette: {
@@ -27,6 +30,10 @@ const theme = createTheme({
           font-family: 'Teko';
           src: url(${Teko}) format('truetype');
         }
+        body {
+          overflow: hidden;
+        }
+       },
       `,
     },
   },
@@ -68,6 +75,7 @@ function App() {
         </Grid>
         </>
         }
+        <Dial/>
       </GameContextProvider>
       </Container>
     </ThemeProvider>
