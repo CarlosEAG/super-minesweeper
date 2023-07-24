@@ -2,7 +2,8 @@ import { Grid, Typography } from "@mui/material";
 import { useGameContext } from "../hooks/useGameContext";
 
 export const Timer = () => {
-    const {time:{minutes, seconds, milliseconds}} = useGameContext();
+    const {time} = useGameContext();
+    const [,,minutes,seconds,milliseconds] = time.current();
     const timeStr = 
     `${minutes <10 ? '0' : ''}${minutes}:`
     + `${seconds <10 ? '0' : ''}${seconds}:`

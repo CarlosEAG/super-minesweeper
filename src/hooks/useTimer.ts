@@ -30,10 +30,11 @@ export const useTimer = () => {
         start();
         return stop;
     },[]);
-    const [ellapsed, hours, minutes, seconds, milliseconds] = timeReducer(ellapsedTime);
-
+    const current = useCallback(()=>{
+        return timeReducer(ellapsedTime);
+    },[ellapsedTime]);
     return {
-        ellapsed, hours, minutes, seconds, milliseconds,
+        current,
         reset,
         stop,
         start,

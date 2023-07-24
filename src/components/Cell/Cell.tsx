@@ -62,6 +62,7 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
             height: 25,
             textAlign: 'center',
             justifyContent: 'center',
+            lineHeight:'28px',
             ...(cellStyles[displayState]),
         }}
         {...animationProps}
