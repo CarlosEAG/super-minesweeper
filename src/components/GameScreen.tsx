@@ -10,7 +10,6 @@ import { GAME_STATE } from "../models/GameState"
 export const GameScreen = () => {   
     const {gameState:{state},init} = useGameContext();
     const handleInit = () => {
-        debugger;
         if(state === GAME_STATE.MAIN){
             init()
         }

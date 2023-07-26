@@ -1,16 +1,12 @@
-import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { useWindowSize } from "../hooks/useWindowSize";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGameContext } from "../hooks/useGameContext";
 import { LightBanner } from "./LightBanner";
 import { useNavigate } from "react-router-dom";
 import { TitleHeader } from "./TitleHeader";
 
-export interface TitleProps {
-    onAnimationComplete?: () => void;
-}
-export const Title = ({onAnimationComplete}:TitleProps) => {
+export const Title = () => {
     const {audio} = useGameContext();
     const windowSize = useWindowSize();
     const navigate = useNavigate();
