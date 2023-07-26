@@ -1,7 +1,7 @@
 import { ThemeProvider, Typography, createTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import { useWindowSize } from "../hooks/useWindowSize";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
 const factor = 32;
 const ts = {
@@ -32,42 +32,26 @@ export const LightBanner = ({ text }: LightBannerProps) => {
     const windowSize = useWindowSize();
     const title2Ref = useRef<HTMLDivElement>(null);
     const title1Ref = useRef<HTMLDivElement>(null);
-    const [variant2, setVariant2] = useState('');
-    const [variant3, setVariant3] = useState('');
     const speedFactor = 1;
-    useLayoutEffect(() => {
-        if (title1Ref.current && title2Ref.current) {
-            setVariant2("right");
-            setVariant3("left");
-        }
-    }, [title1Ref, title2Ref]);
     return (
         <>
             <ThemeProvider theme={theme}>
                 <motion.div
-                    style={{ width: 'fit-content', position: 'absolute', top: 0, }}
-                    ref={title1Ref}
-                    variants={{
-                        right: {
-                            opacity: 1,
-                            x: windowSize.width,
-                            y: -(title1Ref.current?.clientHeight ?? 0) / 3,
-                            transition: {
-                                duration: 0,
-                                onComplete: () => setVariant2("left"),
-                            }
-                        },
-                        left: {
-                            opacity: 0,
-                            x: -(title1Ref.current?.clientWidth ?? 0),
-                            y: -(title1Ref.current?.clientHeight ?? 0) / 3,
-                            transition: {
-                                type: 'linear',
-                                duration: 9 * speedFactor,
-                            }
-                        }
+                    style={{ 
+                        width: 'fit-content',
+                        position: 'absolute',
+                        top: -(title1Ref.current?.clientHeight ?? 0) / 3,
+                        left: windowSize.width,
                     }}
-                    animate={variant2}
+                    ref={title1Ref}
+                    initial={{
+                        opacity: 1,
+                    }}
+                    animate={{
+                        opacity: 0,
+                        x: -windowSize.width-(title1Ref.current?.clientWidth ?? 0),
+                    }}
+                    transition={{ease:'easeOut', repeat: /*Infinity*/0, duration: 9 * speedFactor}}
                 >
                     <Typography textAlign="center" sx={{
                         zIndex: -1000,
@@ -79,29 +63,21 @@ export const LightBanner = ({ text }: LightBannerProps) => {
                     </Typography>
                 </motion.div>
                 <motion.div
-                    style={{ width: 'fit-content', position: 'absolute', top: 0, }}
-                    ref={title2Ref}
-                    variants={{
-                        left: {
-                            opacity: 1,
-                            x: -(title2Ref.current?.clientWidth ?? 0),
-                            y: windowSize.height - (title2Ref.current?.clientHeight ?? 0) * 2 / 3,
-                            transition: {
-                                duration: 0,
-                                onComplete: () => setVariant3("right"),
-                            }
-                        },
-                        right: {
-                            opacity: 0,
-                            x: windowSize.width,
-                            y: windowSize.height - (title2Ref.current?.clientHeight ?? 0) * 2 / 3,
-                            transition: {
-                                type: 'linear',
-                                duration: 9 * speedFactor,
-                            }
-                        }
+                    style={{ 
+                        width: 'fit-content', 
+                        position: 'absolute', 
+                        top: windowSize.height - (title2Ref.current?.clientHeight ?? 0) * 2 / 3,
+                        left: -(title2Ref.current?.clientWidth ?? 0),
                     }}
-                    animate={variant3}
+                    ref={title2Ref}
+                    initial={{
+                        opacity: 1,
+                    }}
+                    animate={{
+                        opacity: 0,
+                        x: windowSize.width+(title2Ref.current?.clientWidth ?? 0),
+                    }}
+                    transition={{ease:'easeOut', repeat: /*Infinity*/0, duration: 9 * speedFactor, }}
                 >
                     <Typography textAlign="center" sx={{
                         zIndex: -1000,
