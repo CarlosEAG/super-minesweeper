@@ -5,7 +5,7 @@ import Paper from "../Custom/Paper";
 import Grid from "../Custom/Grid";
 import { useGameCycle } from "../../hooks/useGameCycle";
 import { useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const displayStates = [
     GAME_STATE.INITIALIZED,
@@ -18,10 +18,8 @@ export const Board = () => {
         gameState: { state, board: { size } },
     } = useGameContext();
     const controls = useAnimation();
-    const [delay,setDelay] = useState(8);
     useEffect(() => {
         if(state === GAME_STATE.INITIALIZED){
-            setDelay(0);
             controls.set("hidden");
             controls.start("visible");
         }
@@ -34,7 +32,6 @@ export const Board = () => {
 
     const transitionFactor = 100 / (size.x * size.y);
     const transitionSpeed = transitionFactor * 0.035;
-    const boardDelay = delay;
 
     return displayStates.includes(state) &&
         <Paper
@@ -48,9 +45,7 @@ export const Board = () => {
                 visible: {
                     scale: 1,
                     transition: {
-                        delay: boardDelay,
                         duration: 0.3,
-                        delayChildren: boardDelay > 0 ? boardDelay-1 : boardDelay,
                     }
                 }
             }}

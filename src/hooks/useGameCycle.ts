@@ -5,14 +5,9 @@ import { GAME_STATE } from "../models/GameState";
 export const useGameCycle = () => {
     const {
         gameState: { state, cellsLeft, lastAmountUncovered, settings: { mines } },
-        init,
         setWin,
         audio,
     } = useGameContext();
-    useEffect(() => {
-        audio.playTitle();
-        init();
-    }, []);
 
     useEffect(() => {
         if (state === GAME_STATE.GAMEOVER) {

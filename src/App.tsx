@@ -1,13 +1,12 @@
 import { useState } from "react"
-import { Flags } from "./components/Flags"
 import { GameContextProvider } from "./components/GameContextProvider"
-import { Smiley } from "./components/Smiley"
-import { Board } from "./components/Board"
-import { Timer } from "./components/Timer"
 import CssBaseline from "@mui/material/CssBaseline"
-import { Container, Grid, ThemeProvider, Typography, createTheme } from "@mui/material"
+import { Container, ThemeProvider, createTheme } from "@mui/material"
 import Teko from "./assets/fonts/Teko-Regular.ttf"
 import { Dial } from "./components/Dial"
+import { GameScreen } from "./components/GameScreen"
+import { SettingsScreen } from "./components/SettingsScreen"
+import { Title } from "./components/Title"
 
 const theme = createTheme({
   spacing: 3,
@@ -45,34 +44,14 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <Container>
-      <Typography textAlign="center" sx={{
-        textShadow: "0px 0px 10px #fff, 0px 0px 30px #ff339c, 0px 0px 60px #ff339c",
-        typography: { xs: 'h5', sm: 'h3', md: 'h2' }
-        }}>
-        Super Minesweeper Ultra HD Turbo! Charged Remix IV
-      </Typography>
-      <Typography textAlign="center"  sx={{
-        textShadow: "0px 0px 10px #fff, 0px 0px 30px #3399ff, 0px 0px 60px #3399ff",
-        typography: { xs: 'h6', sm: 'h4', md: 'h3' }
-        }}>
-      Deluxe Collector's Fancy Reloaded Edition Plus
-      </Typography>
       <GameContextProvider>
         {!start 
         ? <div onClick={()=>setStart(true)}>
             Start!
           </div>
         :<>
-        <Grid container justifyContent="center">
-          <Grid item container  sx={{ display: 'grid', width: 'fit-content' }}>
-            <Grid item container justifyContent="space-between" alignItems="center">
-              <Timer/>
-              <Smiley/>
-              <Flags/>
-            </Grid>
-            <Board/>
-          </Grid>
-        </Grid>
+        <Title/>
+        <GameScreen/>
         </>
         }
         <Dial/>
