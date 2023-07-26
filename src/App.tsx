@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { GameContextProvider } from "./components/GameContextProvider"
 import CssBaseline from "@mui/material/CssBaseline"
 import { Container, ThemeProvider, createTheme } from "@mui/material"
@@ -7,6 +6,9 @@ import { Dial } from "./components/Dial"
 import { GameScreen } from "./components/GameScreen"
 import { SettingsScreen } from "./components/SettingsScreen"
 import { Title } from "./components/Title"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { TitleHeader } from "./components/TitleHeader"
+import { HowToPlayScreen } from "./components/HowToPlayScreen"
 
 const theme = createTheme({
   spacing: 3,
@@ -39,23 +41,24 @@ const theme = createTheme({
 });
 
 function App() {
-  const [start, setStart] = useState(false);
-  const [titleSequenceEnded, setTitleSequenceEnded] = useState(false);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <Container>
       <GameContextProvider>
-        {!start 
-        ? <div onClick={()=>setStart(true)}>
-            Start!
-          </div>
-        :<>
-        <Title onAnimationComplete={()=>setTitleSequenceEnded(true)}/>
-        {titleSequenceEnded && <GameScreen/>}
-        </>
-        }
-        <Dial/>
+        <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Title />} />
+          <Route path='/*' element={<Dial/>}/>
+        </Routes>
+        <Routes>
+          <Route element={<TitleHeader />} >
+            <Route path='play' element={<GameScreen />} />
+            <Route path='settings' element={<SettingsScreen />} />
+            <Route path='howTo' element={<HowToPlayScreen />} />
+          </Route>
+        </Routes>
+        </BrowserRouter>
       </GameContextProvider>
       </Container>
     </ThemeProvider>

@@ -1,9 +1,10 @@
-import { Grid, Typography } from "@mui/material"
+import { Button, Grid, Typography } from "@mui/material"
 import  Screen from "./Screen"
 import { SettingsForm } from "./SettingsForm"
+import { useNavigate } from "react-router-dom";
 
 export const SettingsScreen = () => {
-
+    const navigate = useNavigate();
     return (
         <Screen
         initial={{
@@ -25,6 +26,11 @@ export const SettingsScreen = () => {
                </Typography>
             </Grid>
             <SettingsForm/>
+            <Button onClick={() => navigate('/play')}>
+               <Typography>
+                    Go back to Play
+               </Typography>
+                </Button>
         </Screen>
     )
 }
