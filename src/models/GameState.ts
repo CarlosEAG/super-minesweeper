@@ -22,6 +22,8 @@ export interface GameStateType {
     initialized: boolean;
     board: Board;
     flags: number;
+    cellsLeft: number;
+    lastAmountUncovered: number;
     settings: {
         size: {
             x: number;

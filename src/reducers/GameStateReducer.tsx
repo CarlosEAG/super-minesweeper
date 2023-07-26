@@ -17,7 +17,7 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
     switch(type) {
         case GAME_STATE_ACTION.INITIALIZE: {
             const board = generateBoard(gameState.settings.size)
-            return {...gameState, flags: gameState.settings.mines, state: GAME_STATE.INITIALIZED, board, initialized: true};
+            return {...gameState, flags: gameState.settings.mines, cellsLeft: gameState.settings.size.x * gameState.settings.size.y, lastAmountUncovered: 0, state: GAME_STATE.INITIALIZED, board, initialized: true};
         }
         case GAME_STATE_ACTION.PLACE_MINES:{
             const {board, settings:{size, mines}} = gameState;
@@ -47,8 +47,9 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
         }
         case GAME_STATE_ACTION.UNCOVER_CELLS: {
             const {clickedCellId} = payload;
-            debugger;
             const cellsToUncover = getCellsToUncover(gameState.board, clickedCellId);
+            const lastAmountUncovered = cellsToUncover.length;
+            const cellsLeft = gameState.cellsLeft - lastAmountUncovered;
             const board = {
                 ...gameState.board,
                 cells: gameState.board.cells.map(cell => ({
@@ -56,7 +57,7 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
                     state: cellsToUncover.includes(cell.id) ? CELL_STATE.UNCOVERED : cell.state,
                 })),
             }
-            return {...gameState, board};
+            return {...gameState, cellsLeft, lastAmountUncovered, board};
         }
         case GAME_STATE_ACTION.UPDATE_CELL: {
             const {id, property, value} = payload;
@@ -77,7 +78,7 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
                 board: {
                     ...gameState.board,
                     cells: gameState.board.cells.map(cell => 
-                        cell.hasMine 
+                        cell.hasMine && cell.state !== CELL_STATE.FLAGGED
                         ? {...cell, state: CELL_STATE.UNCOVERED} 
                         : cell
                         ),
@@ -97,7 +98,6 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
             return {...gameState, settings: {...gameState.settings, difficulty}};
         }
         case GAME_STATE_ACTION.CYCLE_CELL: {
-            debugger;
             const {clickedCellId} = payload;
             const currentState = gameState.board.cells[clickedCellId-1].state;
             if(currentState === CELL_STATE.UNCOVERED){

@@ -4,12 +4,13 @@ import { initialGameState } from "./../utils/initialState";
 import { GAME_STATE_ACTION } from "../models/GameAction";
 import { Cell, CellID } from "../models/Cell";
 import { useTimer } from "./useTimer";
-
+import { useGameAudio } from "./useGameAudio";
 
 export const useGameReducer = () => {
 
     const [gameState, dispatch] = useReducer(GameStateReducer,initialGameState);
     const time = useTimer();
+    const audio = useGameAudio();
     const init = useCallback(() => {
         time.reset();
         time.start();
@@ -34,6 +35,7 @@ export const useGameReducer = () => {
     },[]);
 
     const setWin = useCallback(()=>{
+        time.stop();
         dispatch({type: GAME_STATE_ACTION.WIN});
     },[]);
 
@@ -66,6 +68,7 @@ export const useGameReducer = () => {
         getCell,
         cycleCell,
         time,
+        audio,
     }
 }
 

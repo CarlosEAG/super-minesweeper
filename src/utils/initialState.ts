@@ -8,14 +8,16 @@ export const initialGameState: GameStateType = {
     board: {
         cells:[],
         size:{
-            x: 10,
+            x: 15,
             y:10
         }
     },
     flags: 10,
+    cellsLeft: 100,
+    lastAmountUncovered: 0,
     settings: {
         size: {
-            x: 10,
+            x: 15,
             y: 10
         },
         mines: 10,
