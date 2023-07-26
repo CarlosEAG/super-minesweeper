@@ -27,8 +27,9 @@ const theme = createTheme({
 type textKeys = 'top' | 'bottom';
 export interface LightBannerProps {
     text: string | Record<textKeys, string>;
+    loop?: boolean;
 }
-export const LightBanner = ({ text }: LightBannerProps) => {
+export const LightBanner = ({ text, loop = false }: LightBannerProps) => {
     const windowSize = useWindowSize();
     const title2Ref = useRef<HTMLDivElement>(null);
     const title1Ref = useRef<HTMLDivElement>(null);
@@ -51,7 +52,7 @@ export const LightBanner = ({ text }: LightBannerProps) => {
                         opacity: 0,
                         x: -windowSize.width-(title1Ref.current?.clientWidth ?? 0),
                     }}
-                    transition={{ease:'easeOut', repeat: /*Infinity*/0, duration: 9 * speedFactor}}
+                    transition={{ease: loop ? 'linear' : 'easeOut', repeat: loop ? Infinity : 0, duration: 9 * speedFactor}}
                 >
                     <Typography textAlign="center" sx={{
                         zIndex: -1000,
@@ -77,7 +78,7 @@ export const LightBanner = ({ text }: LightBannerProps) => {
                         opacity: 0,
                         x: windowSize.width+(title2Ref.current?.clientWidth ?? 0),
                     }}
-                    transition={{ease:'easeOut', repeat: /*Infinity*/0, duration: 9 * speedFactor, }}
+                    transition={{ease: loop ? 'linear' : 'easeOut', repeat: loop ? Infinity : 0, duration: 9 * speedFactor, }}
                 >
                     <Typography textAlign="center" sx={{
                         zIndex: -1000,
