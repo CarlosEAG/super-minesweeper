@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material"
-import Screen from "./Screen"
+import { Screen } from "./Screen"
 
 export const HowToPlayScreen = () => {
 
