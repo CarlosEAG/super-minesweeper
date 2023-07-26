@@ -10,6 +10,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { TitleHeader } from "./components/TitleHeader"
 import { HowToPlayScreen } from "./components/HowToPlayScreen"
 
+declare module '@mui/material/Paper' {
+  interface PaperPropsVariantOverrides {
+    blue: true;
+    purple: true;
+    main: true;
+  }
+}
+
 const theme = createTheme({
   spacing: 3,
   palette: {
@@ -37,6 +45,40 @@ const theme = createTheme({
        },
       `,
     },
+      MuiPaper: {
+        variants: [
+          {
+            props: { variant: 'main' },
+            style: ({theme})=>({
+              backgroundColor: 'blue',
+              boxShadow: '0px 0px 2px #fff, 0px 0px 10px #990099,0px 0px 15px #990099',
+              //boxShadow: '0px 0px 10px #fff,0px 0px 30px blue,0px 0px 60px blue,0px 0px 30px blue,0px 0px 60px blue',
+              color: 'white',
+              padding: theme.spacing(1.5),
+            }),
+          },
+          {
+            props: { variant: 'blue' },
+            style: ({theme}) => ({
+              padding: theme.spacing(3),
+              backgroundColor: 'blue',
+              boxShadow: '0px 0px 2px #fff, 0px 0px 10px blue,0px 0px 15px blue',
+              //boxShadow: '0px 0px 10px #fff,0px 0px 30px blue,0px 0px 60px blue,0px 0px 30px blue,0px 0px 60px blue',
+              color: 'white',
+            }),
+          },
+          {
+            props: { variant: 'purple' },
+            style: ({theme}) => ({
+              padding: theme.spacing(3),
+              backgroundColor: 'purple',
+              boxShadow: '0px 0px 2px #fff, 0px 0px 10px purple,0px 0px 15px purple',
+              //boxShadow: '0px 0px 10px #fff,0px 0px 30px purple,0px 0px 60px purple,0px 0px 30px purple,0px 0px 60px purple',
+              color: 'white',
+            }),
+          },
+        ],
+      },
   },
 });
 

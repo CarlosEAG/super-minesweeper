@@ -10,7 +10,7 @@ interface ScreenType {
 
 export const Screen = ({children, onAnimationComplete}: ScreenType)=>{
     return (
-        <MotionGrid container justifyContent="center"
+        <MotionGrid container justifyContent="center" sx={{paddingTop:10}}
             initial={{
                 scale:0,
             }}

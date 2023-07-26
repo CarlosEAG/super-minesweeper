@@ -36,7 +36,7 @@ export const Board = () => {
     return (
         state !== GAME_STATE.MAIN &&
         <Paper
-            sx={{ padding: 1 }}
+            variant="main"
             >
             <Grid
                 container
