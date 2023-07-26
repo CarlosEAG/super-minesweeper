@@ -1,27 +1,14 @@
-import { Grid } from "@mui/material"
+import Grid from "./Custom/Grid"
 import { Board } from "./Board"
 import Screen from "./Screen"
 import { Timer } from "./Timer"
 import { Smiley } from "./Smiley"
 import { Flags } from "./Flags"
 import { useGameContext } from "../hooks/useGameContext"
-import { GAME_STATE } from "../models/GameState"
-import { useEffect } from "react"
 
 export const GameScreen = () => {   
-    const {
-        gameState: { state},
-        init,
-        audio,
-    } = useGameContext();
-    useEffect(() => {
-        if (state === GAME_STATE.MAIN) {
-            audio.playTitle();
-        }
-    }, []);
+    const {init} = useGameContext();
 
-
-    const onTitleAnimation = state === GAME_STATE.MAIN;
     return (
         <Screen 
         initial={{
@@ -33,19 +20,18 @@ export const GameScreen = () => {
         transition={{
             type:'spring',
             duration: 0.335,
-            delay: onTitleAnimation ? 7 : 0,
         }}
         onAnimationComplete={init}
         >
-            {onTitleAnimation ? <></> : <>
-                <Grid item container justifyContent="space-between" alignItems="center">
-                    <Timer/>
-                    <Smiley/>
-                    <Flags/>
-                </Grid>
-                <Board/>
-            </>
-            }
+            <Grid 
+            layout 
+            transition={{type:'spring', damping:20, stiffness: 400}}
+            item container justifyContent="space-between" alignItems="center">
+                <Timer/>
+                <Smiley/>
+                <Flags/>
+            </Grid>
+            <Board/>
         </Screen>
     )
 }

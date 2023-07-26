@@ -40,6 +40,7 @@ const theme = createTheme({
 
 function App() {
   const [start, setStart] = useState(false);
+  const [titleSequenceEnded, setTitleSequenceEnded] = useState(false);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>
@@ -50,8 +51,8 @@ function App() {
             Start!
           </div>
         :<>
-        <Title/>
-        <GameScreen/>
+        <Title onAnimationComplete={()=>setTitleSequenceEnded(true)}/>
+        {titleSequenceEnded && <GameScreen/>}
         </>
         }
         <Dial/>

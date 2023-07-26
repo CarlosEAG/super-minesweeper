@@ -2,6 +2,7 @@ import { ThemeProvider, Typography, createTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { useLayoutEffect, useRef, useState } from "react";
+import { useGameContext } from "../hooks/useGameContext";
 
          const factor = 32;
          const ts = {
@@ -23,7 +24,13 @@ import { useLayoutEffect, useRef, useState } from "react";
               },
             },
           });
-export const Title = () => {
+
+export interface TitleProps {
+    onAnimationComplete?: () => void;
+}
+export const Title = ({onAnimationComplete}:TitleProps) => {
+    const {audio} = useGameContext();
+
     const windowSize = useWindowSize();
     
     const title2Ref = useRef<HTMLDivElement>(null);
@@ -33,11 +40,13 @@ export const Title = () => {
     const [variant, setVariant] = useState('');
     const [variant2, setVariant2] = useState('');
     const [variant3, setVariant3] = useState('');
+    const speedFactor = 1;
     useLayoutEffect(()=>{
         if(fullTitleRef.current && title1Ref.current && title2Ref.current){
             setVariant("center");
             setVariant2("right");
             setVariant3("left");
+            audio.playTitle();
         }
     },[fullTitleRef,title1Ref,title2Ref]);
     return (
@@ -60,13 +69,17 @@ export const Title = () => {
                 scale:1,
                 opacity:1,
                 transition:{
-                    duration: 7,
+                    duration: 7*speedFactor,
                     onComplete: () => setVariant("top"),
                 },
                 
             },
             top: {
                 y: 0,
+                transition:{
+                    type: 'spring',
+                    onComplete: onAnimationComplete,
+                },
             }
         }}
         animate={variant}
@@ -106,7 +119,7 @@ export const Title = () => {
                 y:-(title1Ref.current?.clientHeight ?? 0)/3,
                 transition:{
                     type:'linear',
-                    duration:9,
+                    duration:9*speedFactor,
                 }
             }
         }}
@@ -141,7 +154,7 @@ export const Title = () => {
                 y: windowSize.height-(title2Ref.current?.clientHeight ?? 0)*2/3,
                 transition:{
                     type:'linear',
-                    duration:9,
+                    duration:9*speedFactor,
                 }
             }
         }}
