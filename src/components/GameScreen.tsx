@@ -5,10 +5,15 @@ import { Timer } from "./Timer"
 import { Smiley } from "./Smiley"
 import { Flags } from "./Flags"
 import { useGameContext } from "../hooks/useGameContext"
+import { GAME_STATE } from "../models/GameState"
 
 export const GameScreen = () => {   
-    const {init} = useGameContext();
-
+    const {gameState:{state},init} = useGameContext();
+    const handleInit = () => {
+        if(state === GAME_STATE.MAIN){
+            init()
+        }
+    }
     return (
         <Screen 
         initial={{
@@ -21,7 +26,7 @@ export const GameScreen = () => {
             type:'spring',
             duration: 0.335,
         }}
-        onAnimationComplete={init}
+        onAnimationComplete={handleInit}
         >
             <Grid 
             layout 
