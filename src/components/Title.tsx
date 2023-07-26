@@ -1,54 +1,25 @@
-import { ThemeProvider, Typography, createTheme } from "@mui/material";
+import { Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { useLayoutEffect, useRef, useState } from "react";
 import { useGameContext } from "../hooks/useGameContext";
-
-         const factor = 32;
-         const ts = {
-            h5: factor*0.83,
-            h3: factor*1.17,
-            h2: factor*1.5,
-         }
-          const theme = createTheme({
-            typography: {
-                fontFamily: "Teko",
-              h5: {
-                fontSize: `${ts.h5}em`, // 24px
-              },
-              h3: {
-                fontSize: `${ts.h5}em`, // 18.72px
-              },
-              h2: {
-                fontSize: `${ts.h5}em`, // 13.28px
-              },
-            },
-          });
+import { LightBanner } from "./LightBanner";
 
 export interface TitleProps {
     onAnimationComplete?: () => void;
 }
 export const Title = ({onAnimationComplete}:TitleProps) => {
     const {audio} = useGameContext();
-
     const windowSize = useWindowSize();
-    
-    const title2Ref = useRef<HTMLDivElement>(null);
-    const title1Ref = useRef<HTMLDivElement>(null);
     const fullTitleRef = useRef<HTMLDivElement>(null);
-
     const [variant, setVariant] = useState('');
-    const [variant2, setVariant2] = useState('');
-    const [variant3, setVariant3] = useState('');
     const speedFactor = 1;
     useLayoutEffect(()=>{
-        if(fullTitleRef.current && title1Ref.current && title2Ref.current){
+        if(fullTitleRef.current){
             setVariant("center");
-            setVariant2("right");
-            setVariant3("left");
             audio.playTitle();
         }
-    },[fullTitleRef,title1Ref,title2Ref]);
+    },[fullTitleRef]);
     return (
         <>
         <motion.div
@@ -62,7 +33,6 @@ export const Title = ({onAnimationComplete}:TitleProps) => {
                     duration: 0,
                     onComplete: () => setVariant("grow"),
                 },
-                
             },
             grow: {
                 y:windowSize.height/2 - (fullTitleRef.current?.clientHeight ?? 0)/2,
@@ -72,7 +42,6 @@ export const Title = ({onAnimationComplete}:TitleProps) => {
                     duration: 7*speedFactor,
                     onComplete: () => setVariant("top"),
                 },
-                
             },
             top: {
                 y: 0,
@@ -98,78 +67,11 @@ export const Title = ({onAnimationComplete}:TitleProps) => {
                 Deluxe Collector's Fancy Reloaded Edition Plus
             </Typography>
         </motion.div>
-        <ThemeProvider theme={theme}>
-
-        <motion.div
-        style={{width:'fit-content', position:'absolute', top: 0,}}
-        ref={title1Ref}
-        variants={{
-            right: {
-                opacity: 1,
-                x: windowSize.width,
-                y:-(title1Ref.current?.clientHeight ?? 0)/3,
-                transition:{
-                    duration: 0,
-                    onComplete: () => setVariant2("left"),
-                }
-            },
-            left: {
-                opacity:0,
-                x: -(title1Ref.current?.clientWidth ?? 0),
-                y:-(title1Ref.current?.clientHeight ?? 0)/3,
-                transition:{
-                    type:'linear',
-                    duration:9*speedFactor,
-                }
-            }
-        }}
-        animate={variant2}
-        >
-            <Typography textAlign="center" sx={{
-                zIndex:-1000,
-            //textShadow: "0 0 10px #fff, 0 0 30px #ff339c, 0 0 60px #ff339c",
-            typography: { xs: 'h5', sm: 'h3', md: 'h2' },
-            textWrap: 'nowrap',
-        }}>
-            Super Minesweeper Ultra HD Turbo! Charged Remix IV
-        </Typography>
-        </motion.div>
-
-        <motion.div
-        style={{width:'fit-content', position:'absolute', top: 0,}}
-        ref={title2Ref}
-        variants={{
-            left: {
-                opacity: 1,
-                x: -(title2Ref.current?.clientWidth ?? 0),
-                y: windowSize.height-(title2Ref.current?.clientHeight ?? 0)*2/3,
-                transition:{
-                    duration: 0,
-                    onComplete: () => setVariant3("right"),
-                }
-            },
-            right: {
-                opacity:0,
-                x: windowSize.width,
-                y: windowSize.height-(title2Ref.current?.clientHeight ?? 0)*2/3,
-                transition:{
-                    type:'linear',
-                    duration:9*speedFactor,
-                }
-            }
-        }}
-        animate={variant3}
-        >
-            <Typography textAlign="center" sx={{
-                zIndex:-1000,
-            //textShadow: "0px 0px 10px #fff, 0px 0px 30px #3399ff, 0px 0px 60px #3399ff",
-            typography: { xs: 'h5', sm: 'h3', md: 'h2' },
-            textWrap:'nowrap',
-        }}>
-                Deluxe Collector's Fancy Reloaded Edition Plus
-            </Typography>
-        </motion.div>
-        </ThemeProvider>
+        <LightBanner
+        text={{
+            top: 'Super Minesweeper Ultra HD Turbo! Charged Remix IV',
+            bottom:'Deluxe Collector\'s Fancy Reloaded Edition Plus'
+        }}/>
         </>
     );
 }
