@@ -91,11 +91,12 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
             },
             uncovered: {
                 opacity: 1,
+                rotate:0, //mf hack that somehow makes the animate value to actually go back to initial
                 scale: "170%",
                 transition: {
                     type: 'spring',
                     duration: 0.2,
-                    onComplete: () => { setVariant('initial') },
+                    onComplete: () => setVariant('initial'),
                 }
             },
         }}
