@@ -1,21 +1,31 @@
 import { Grid } from "@mui/material";
 import { motion } from "framer-motion";
 import React from "react";
+import MotionGrid from "./Custom/Grid";
 
 interface ScreenType {
     children: React.ReactNode,
+    onAnimationComplete?: ()=>void,
 }
 
-export const Screen = React.forwardRef<HTMLDivElement, ScreenType>((props, ref)=>{
+export const Screen = ({children, onAnimationComplete}: ScreenType)=>{
     return (
-        <Grid container justifyContent="center" ref={ref}>
+        <MotionGrid container justifyContent="center" sx={{paddingTop:10}}
+            initial={{
+                scale:0,
+            }}
+            animate={{
+                scale:1,
+            }}
+            transition={{
+                type:'spring',
+                duration: 0.335,
+            }}
+            onAnimationComplete={onAnimationComplete}
+        >
             <Grid item container  sx={{ display: 'grid', width: 'fit-content' }}>
-                {props.children}
+                {children}
             </Grid>
-        </Grid>
+        </MotionGrid>
     )
-});
-
-const MotionScreen = motion(Screen);
-
-export default MotionScreen;
+};

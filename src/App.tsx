@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { GameContextProvider } from "./components/GameContextProvider"
 import CssBaseline from "@mui/material/CssBaseline"
 import { Container, ThemeProvider, createTheme } from "@mui/material"
@@ -7,6 +6,17 @@ import { Dial } from "./components/Dial"
 import { GameScreen } from "./components/GameScreen"
 import { SettingsScreen } from "./components/SettingsScreen"
 import { Title } from "./components/Title"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { TitleHeader } from "./components/TitleHeader"
+import { HowToPlayScreen } from "./components/HowToPlayScreen"
+
+declare module '@mui/material/Paper' {
+  interface PaperPropsVariantOverrides {
+    blue: true;
+    purple: true;
+    main: true;
+  }
+}
 
 const theme = createTheme({
   spacing: 3,
@@ -35,27 +45,62 @@ const theme = createTheme({
        },
       `,
     },
+      MuiPaper: {
+        variants: [
+          {
+            props: { variant: 'main' },
+            style: ({theme})=>({
+              backgroundColor: 'blue',
+              boxShadow: '0px 0px 2px #fff, 0px 0px 10px #990099,0px 0px 15px #990099',
+              //boxShadow: '0px 0px 10px #fff,0px 0px 30px blue,0px 0px 60px blue,0px 0px 30px blue,0px 0px 60px blue',
+              color: 'white',
+              padding: theme.spacing(1.5),
+            }),
+          },
+          {
+            props: { variant: 'blue' },
+            style: ({theme}) => ({
+              padding: theme.spacing(3),
+              backgroundColor: 'blue',
+              boxShadow: '0px 0px 2px #fff, 0px 0px 10px blue,0px 0px 15px blue',
+              //boxShadow: '0px 0px 10px #fff,0px 0px 30px blue,0px 0px 60px blue,0px 0px 30px blue,0px 0px 60px blue',
+              color: 'white',
+            }),
+          },
+          {
+            props: { variant: 'purple' },
+            style: ({theme}) => ({
+              padding: theme.spacing(3),
+              backgroundColor: 'purple',
+              boxShadow: '0px 0px 2px #fff, 0px 0px 10px purple,0px 0px 15px purple',
+              //boxShadow: '0px 0px 10px #fff,0px 0px 30px purple,0px 0px 60px purple,0px 0px 30px purple,0px 0px 60px purple',
+              color: 'white',
+            }),
+          },
+        ],
+      },
   },
 });
 
 function App() {
-  const [start, setStart] = useState(false);
-  const [titleSequenceEnded, setTitleSequenceEnded] = useState(false);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <Container>
       <GameContextProvider>
-        {!start 
-        ? <div onClick={()=>setStart(true)}>
-            Start!
-          </div>
-        :<>
-        <Title onAnimationComplete={()=>setTitleSequenceEnded(true)}/>
-        {titleSequenceEnded && <GameScreen/>}
-        </>
-        }
-        <Dial/>
+        <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Title />} />
+          <Route path='/*' element={<Dial/>}/>
+        </Routes>
+        <Routes>
+          <Route element={<TitleHeader />} >
+            <Route path='play' element={<GameScreen />} />
+            <Route path='settings' element={<SettingsScreen />} />
+            <Route path='howTo' element={<HowToPlayScreen />} />
+          </Route>
+        </Routes>
+        </BrowserRouter>
       </GameContextProvider>
       </Container>
     </ThemeProvider>

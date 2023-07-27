@@ -3,21 +3,30 @@ import SpeedDialAction from "@mui/material/SpeedDialAction";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SettingsIcon from '@mui/icons-material/Settings';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import InfoIcon from '@mui/icons-material/Info';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { useGameContext } from "../hooks/useGameContext";
-import { GAME_STATE } from "../models/GameState";
+import { useNavigate } from "react-router-dom";
 
-const actions = [
-    { icon: <SettingsIcon />, name: 'Settings' },
-    { icon: <QuestionMarkIcon />, name: 'How to Play' },
-    //{ icon: <InfoIcon />, name: 'Info' },
-    { icon: <GitHubIcon />, name: 'GitHub'},
+type baseAction = {
+  icon: React.ReactNode,
+  name: string,
+  path?: string,
+  url?: string,
+}
+interface action extends baseAction {
+  path: string,
+}
+interface externalAction extends baseAction {
+  url: string,
+}
+const actions: (action | externalAction)[] = [
+    { icon: <SettingsIcon />, name: 'Settings', path: '/settings' },
+    { icon: <QuestionMarkIcon />, name: 'How to Play', path: '/howTo' },
+    { icon: <GitHubIcon />, name: 'GitHub', url: 'https://github.com/CarlosEAG/super-minesweeper'},
   ];
-  
+
 export const Dial= () => {
-    const {gameState:{state}} = useGameContext();
-    return state=== GAME_STATE.MAIN ? <></> : (
+    const navigate = useNavigate();
+    return (
         <SpeedDial
           ariaLabel="SpeedDial"
           sx={{ position: 'absolute', bottom: 16, right: 16 }}
@@ -28,6 +37,7 @@ export const Dial= () => {
               key={action.name}
               icon={action.icon}
               tooltipTitle={action.name}
+              onClick={() => action.path ? navigate(action.path) : window.open(action.url!, '_blank')}
             />
           ))}
         </SpeedDial>

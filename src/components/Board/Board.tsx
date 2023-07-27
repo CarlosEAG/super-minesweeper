@@ -7,21 +7,21 @@ import { useGameCycle } from "../../hooks/useGameCycle";
 import { useAnimation } from "framer-motion";
 import { useEffect } from "react";
 
-const displayStates = [
-    GAME_STATE.INITIALIZED,
-    GAME_STATE.GAMEOVER,
-    GAME_STATE.MINESPLACED,
-    GAME_STATE.WIN,
-]
 export const Board = () => {
     const {
         gameState: { state, board: { size } },
     } = useGameContext();
     const controls = useAnimation();
+    const runInitAnimation = () => {
+        controls.set("hidden");
+        controls.start("visible");
+    }
+    useEffect(()=>{
+        runInitAnimation();
+    },[]);
     useEffect(() => {
         if(state === GAME_STATE.INITIALIZED){
-            controls.set("hidden");
-            controls.start("visible");
+            runInitAnimation();
         }
     },[state]);
     useGameCycle();
@@ -33,27 +33,17 @@ export const Board = () => {
     const transitionFactor = 100 / (size.x * size.y);
     const transitionSpeed = transitionFactor * 0.035;
 
-    return displayStates.includes(state) &&
+    return (
+        state !== GAME_STATE.MAIN &&
         <Paper
-            sx={{ padding: 1 }}
-            initial="hidden"
-            animate={controls}//"visible"
-            variants= {{
-                hidden: {
-                    scale: 0,
-                },
-                visible: {
-                    scale: 1,
-                    transition: {
-                        duration: 0.3,
-                    }
-                }
-            }}
+            variant="main"
             >
             <Grid
                 container
                 spacing={1}
                 sx={{ display: 'grid' }}
+                initial="hidden"
+                animate={controls}
                 variants={{
                     hidden: {
                         scale: 0,
@@ -115,4 +105,5 @@ export const Board = () => {
                 ))}
             </Grid>
         </Paper>
+    )
 }
