@@ -24,17 +24,27 @@ const theme = createTheme({
     },
 });
 
+const colorVariants = {
+    white: '#fff',
+    red: '#ff0079',
+    green: '#00ffa7',
+    cyan: '#2ee8ed',
+}
+
+type color = keyof typeof colorVariants;
+
 type textKeys = 'top' | 'bottom';
 export interface LightBannerProps {
     text: string | Record<textKeys, string>;
+    color?: color;
     loop?: boolean;
 }
-export const LightBanner = ({ text, loop = false }: LightBannerProps) => {
+export const LightBanner = ({ text, loop = false, color= 'white' }: LightBannerProps) => {
     const windowSize = useWindowSize();
     const title2Ref = useRef<HTMLDivElement>(null);
     const title1Ref = useRef<HTMLDivElement>(null);
     const speedFactor = 1;
-    return (
+    return ( 
         <>
             <ThemeProvider theme={theme}>
                 <motion.div
@@ -59,6 +69,7 @@ export const LightBanner = ({ text, loop = false }: LightBannerProps) => {
                         //textShadow: "0 0 10px #fff, 0 0 30px #ff339c, 0 0 60px #ff339c",
                         typography: { xs: 'h5', sm: 'h3', md: 'h2' },
                         textWrap: 'nowrap',
+                        color:colorVariants[color],
                     }}>
                         {typeof text === 'string' ? text : text.top}
                     </Typography>
@@ -85,11 +96,12 @@ export const LightBanner = ({ text, loop = false }: LightBannerProps) => {
                         //textShadow: "0px 0px 10px #fff, 0px 0px 30px #3399ff, 0px 0px 60px #3399ff",
                         typography: { xs: 'h5', sm: 'h3', md: 'h2' },
                         textWrap: 'nowrap',
+                        color:colorVariants[color],
                     }}>
                         {typeof text === 'string' ? text : text.bottom}
                     </Typography>
                 </motion.div>
             </ThemeProvider>
-        </>
+        </> || <></>
     );
 }
