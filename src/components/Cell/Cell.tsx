@@ -1,11 +1,10 @@
 import { CELL_STATE, CellID } from "../../models/Cell"
 import { GAME_STATE } from "../../models/GameState";
 import { useGameContext } from "../../hooks/useGameContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Box from "../Custom/Box";
 import { cellStyles } from "./utils/cellStyles";
 import { getDisplayState } from "./utils/getDisplayState";
-import { motionProps } from "./motion";
 
 interface CellProps {
     cellId: CellID;
@@ -19,9 +18,13 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
         audio,
     } = useGameContext();
     const {state, hasMine, adjacentMines} = getCell(cellId);
-
+    const [variant, setVariant] = useState('initial');
     useEffect(()=>{
-        if(state !== CELL_STATE.UNCOVERED && state != CELL_STATE.COVERED){
+        if(state === CELL_STATE.UNCOVERED){
+            setVariant('uncovered');
+            return;
+        }
+        if(state !==CELL_STATE.COVERED){
             audio.playFlagged();
         }
     },[state]);
@@ -50,11 +53,7 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
     }
 
     const [displayState, content] = getDisplayState(state,hasMine,adjacentMines, gameState.state === GAME_STATE.GAMEOVER);
-
-    const animationProps = {
-        animate: state === CELL_STATE.COVERED ? "initial" : "uncovered",
-        ...motionProps
-    }
+    
     return <Box
         sx={{
             color: 'white',
@@ -65,9 +64,41 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
             lineHeight:'28px',
             ...(cellStyles[displayState]),
         }}
-        {...animationProps}
         onClick={handleClickEvent}
         onContextMenu={handleContextMenuEvent}
+
+        animate={variant}
+        whileHover={{
+            scale: ["115%", "110%"],
+            opacity: [0.5, 1],
+            borderRadius: 0,
+            transition: {
+                type: 'spring',
+            },
+        }}
+        whileTap={{
+            scale: ["95%", "150%"],
+            opacity: 0.75,
+            borderRadius: 3,
+            transition: {
+                type: 'spring',
+            },
+        }}
+        variants={{
+            initial: {
+                opacity: 1,
+                scale: "100%",
+            },
+            uncovered: {
+                opacity: 1,
+                scale: "170%",
+                transition: {
+                    type: 'spring',
+                    duration: 0.2,
+                    onComplete: () => { setVariant('initial') },
+                }
+            },
+        }}
         >
             {content}
         </Box>
