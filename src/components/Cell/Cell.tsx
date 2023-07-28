@@ -57,11 +57,12 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
     return <Box
         sx={{
             color: 'white',
-            width: 25,
-            height: 25,
+            width: {xs:12, sm: 17, md: 25},
+            height: {xs:12, sm: 17, md: 25},
             textAlign: 'center',
             justifyContent: 'center',
-            lineHeight:'28px',
+            lineHeight:{xs:'14px',sm:'28px', md:'28px'},
+            fontSize:{xs:12, sm:16, md: 16},
             ...(cellStyles[displayState]),
         }}
         onClick={handleClickEvent}

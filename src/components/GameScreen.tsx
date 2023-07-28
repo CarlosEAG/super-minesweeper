@@ -28,7 +28,9 @@ export const GameScreen = () => {
                 <Smiley/>
                 <Flags/>
             </Grid>
-            <Board/>
+            <Grid container justifyContent="center">
+                <Board/>
+            </Grid>
         </Screen>
         </>
     )

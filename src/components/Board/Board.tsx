@@ -32,7 +32,7 @@ export const Board = () => {
 
     const transitionFactor = 100 / (size.x * size.y);
     const transitionSpeed = transitionFactor * 0.035;
-
+    
     return (
         state !== GAME_STATE.MAIN &&
         <Paper
@@ -64,9 +64,7 @@ export const Board = () => {
                         container
                         spacing={1}
                         xs={12}
-                        sx={{ width: 'fit-content' }}
-
-                        
+                        sx={{ width: 'fit-content', flexWrap:'nowrap' }}
                         variants={{
                             hidden: {
                                 opacity: 0,
