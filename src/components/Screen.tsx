@@ -14,6 +14,7 @@ export const Screen = ({children, onAnimationComplete}: ScreenType)=>{
                 //paddingTop:10,
                 position:'absolute',
                 top:0,
+                left:0,
                 height:'100%',
             }}
             initial={{
