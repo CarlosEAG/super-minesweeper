@@ -1,7 +1,7 @@
 import { ThemeProvider, Typography, createTheme } from "@mui/material";
-import { motion } from "framer-motion";
 import { useWindowSize } from "../hooks/useWindowSize";
-import { useRef } from "react";
+import MotionBox from "./Custom/Box";
+import { useElementSize } from "../hooks/useElementSize";
 
 const factor = 32;
 const ts = {
@@ -41,26 +41,27 @@ export interface LightBannerProps {
 }
 export const LightBanner = ({ text, loop = false, color= 'white' }: LightBannerProps) => {
     const windowSize = useWindowSize();
-    const title2Ref = useRef<HTMLDivElement>(null);
-    const title1Ref = useRef<HTMLDivElement>(null);
+    const [title1Ref,title1Size] = useElementSize<HTMLDivElement>();
+    const [title2Ref,title2Size] = useElementSize<HTMLDivElement>();
     const speedFactor = 1;
     return ( 
         <>
             <ThemeProvider theme={theme}>
-                <motion.div
-                    style={{ 
+                <MotionBox
+                    ref={title1Ref}
+                    sx={{ 
+                        zIndex:-1000,
                         width: 'fit-content',
                         position: 'absolute',
-                        top: -(title1Ref.current?.clientHeight ?? 0) / 3,
+                        top: -title1Size.height / 3,
                         left: windowSize.width,
                     }}
-                    ref={title1Ref}
                     initial={{
                         opacity: 1,
                     }}
                     animate={{
                         opacity: 0,
-                        x: -windowSize.width-(title1Ref.current?.clientWidth ?? 0),
+                        x: -windowSize.width-(title1Size.width ?? 0),
                     }}
                     transition={{ease: loop ? 'linear' : 'easeOut', repeat: loop ? Infinity : 0, duration: 9 * speedFactor}}
                 >
@@ -73,13 +74,13 @@ export const LightBanner = ({ text, loop = false, color= 'white' }: LightBannerP
                     }}>
                         {typeof text === 'string' ? text : text.top}
                     </Typography>
-                </motion.div>
-                <motion.div
-                    style={{ 
+                </MotionBox>
+                <MotionBox
+                    sx={{ 
                         width: 'fit-content', 
                         position: 'absolute', 
-                        top: windowSize.height - (title2Ref.current?.clientHeight ?? 0) * 2 / 3,
-                        left: -(title2Ref.current?.clientWidth ?? 0),
+                        top: windowSize.height - (title2Size.height ?? 0) * 2 / 3,
+                        left: -title2Size.width,
                     }}
                     ref={title2Ref}
                     initial={{
@@ -87,7 +88,7 @@ export const LightBanner = ({ text, loop = false, color= 'white' }: LightBannerP
                     }}
                     animate={{
                         opacity: 0,
-                        x: windowSize.width+(title2Ref.current?.clientWidth ?? 0),
+                        x: windowSize.width+title2Size.width,
                     }}
                     transition={{ease: loop ? 'linear' : 'easeOut', repeat: loop ? Infinity : 0, duration: 9 * speedFactor, }}
                 >
@@ -100,8 +101,8 @@ export const LightBanner = ({ text, loop = false, color= 'white' }: LightBannerP
                     }}>
                         {typeof text === 'string' ? text : text.bottom}
                     </Typography>
-                </motion.div>
+                </MotionBox>
             </ThemeProvider>
-        </> || <></>
+        </>
     );
 }
