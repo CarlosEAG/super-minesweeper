@@ -7,15 +7,17 @@ export const SettingsScreen = () => {
     const navigate = useNavigate();
     return (
         <Screen>
-            <Typography>
+            <Typography  sx={{ fontSize: 40, }}>
                 Settings
             </Typography>
             <SettingsForm />
+            <Grid container>
             <Button onClick={() => navigate('/play')}>
                 <Typography>
                     Go back to Play
                 </Typography>
             </Button>
+            </Grid>
         </Screen>
     )
 }

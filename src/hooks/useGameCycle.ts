@@ -4,7 +4,7 @@ import { GAME_STATE } from "../models/GameState";
 
 export const useGameCycle = () => {
     const {
-        gameState: { state, cellsLeft, lastAmountUncovered, settings: { mines } },
+        gameState: { state, cellsLeft, lastAmountUncovered, settings: { configuration: {mines} } },
         setWin,
         audio,
     } = useGameContext();

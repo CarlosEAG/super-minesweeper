@@ -45,6 +45,63 @@ const theme = createTheme({
        },
       `,
     },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: "#ff0079",
+          color: "white",
+          fontSize:20,
+        },
+      },
+    },
+    MuiRadio: {
+      styleOverrides: {
+        root:{
+          color: 'white',
+          textShadow: '0 0 30px #fff',
+          '&.Mui-checked':{
+            color: '#1616c7', //'cyan',
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& label": {
+            color: "white",
+          },
+          "& label.Mui-disabled": {
+            color: "#2f4c6d !important",
+          },
+          "& label.Mui-error": {
+            color: "#cf0e9b",
+          },
+          "& .MuiFormHelperText-root.Mui-error":{
+            color: '#cf0e9b',
+          },
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "#80bacf",
+            },
+            "&:hover fieldset": {
+              //borderColor: "blue",
+            },
+            "&.Mui-focused fieldset": {
+              //borderColor: "darkblue",
+            },
+            "&.Mui-disabled fieldset": {
+              borderColor: "#2f4c6d !important",
+              color: '#2f4c6d !important',
+            },
+            "&.Mui-error fieldset": {
+              borderColor: "#cf0e9b",
+              color: '#cf0e9b',
+            },
+          },
+        },
+      },
+    },
       MuiPaper: {
         variants: [
           {
@@ -61,7 +118,7 @@ const theme = createTheme({
             props: { variant: 'blue' },
             style: ({theme}) => ({
               padding: theme.spacing(3),
-              backgroundColor: 'blue',
+              backgroundColor: '#1c1c38', //'#2222fb',
               boxShadow: '0px 0px 2px #fff, 0px 0px 10px blue,0px 0px 15px blue',
               //boxShadow: '0px 0px 10px #fff,0px 0px 30px blue,0px 0px 60px blue,0px 0px 30px blue,0px 0px 60px blue',
               color: 'white',

@@ -5,6 +5,8 @@ import { GAME_STATE_ACTION } from "../models/GameAction";
 import { Cell, CellID } from "../models/Cell";
 import { useTimer } from "./useTimer";
 import { useGameAudio } from "./useGameAudio";
+import { difficulty } from "../models/Settings";
+import { BoardDimensions } from "../models/BoardDimensions";
 
 export const useGameReducer = () => {
 
@@ -43,8 +45,8 @@ export const useGameReducer = () => {
         dispatch({type: GAME_STATE_ACTION.SIZE_UPDATE});
     },[]);
 
-    const setDifficulty = useCallback(()=>{
-        dispatch({type: GAME_STATE_ACTION.DIFFICULTY_UPDATE});
+    const setDifficulty = useCallback((difficulty: difficulty, customConfig?: {size:BoardDimensions, mines:number})=>{
+        dispatch({type: GAME_STATE_ACTION.DIFFICULTY_UPDATE, payload:{difficulty, customConfig}});
     },[]);
 
     const getCell = (id:CellID): Cell => {

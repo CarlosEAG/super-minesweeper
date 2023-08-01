@@ -16,12 +16,14 @@ export const initialGameState: GameStateType = {
     cellsLeft: 100,
     lastAmountUncovered: 0,
     settings: {
-        size: {
-            x: 15,
-            y: 10
+        configuration: {
+            size: {
+                x: 9,
+                y: 9,
+            },
+            mines: 10,
         },
-        mines: 10,
-        difficulty: "beginner"
+        difficulty: "Beginner"
 
     },
 }
