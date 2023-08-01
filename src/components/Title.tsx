@@ -5,6 +5,8 @@ import { useGameContext } from "../hooks/useGameContext";
 import { LightBanner } from "./LightBanner";
 import { useNavigate } from "react-router-dom";
 import { TitleHeader } from "./TitleHeader";
+import { Grid, Typography } from "@mui/material";
+import Button from "./Custom/Button";
 
 export const Title = () => {
     const {audio} = useGameContext();
@@ -19,9 +21,38 @@ export const Title = () => {
     },[start]);
 
     if(!start){
-        return <div onClick={()=>setStart(true)}>
-        Start!
-      </div>
+        return (
+        <Grid container justifyContent="center" alignItems="center" sx={{position:'absolute', left: 0, width: '100%', height:'100%',}}>
+            <Button size="large" variant="outlined" sx={{
+                boxShadow: "0 0 1px #fff, 0 0 10px #3399ff, 0 0 3px #3399ff",
+                }}
+                initial={{
+                    opacity:0
+                }}
+                animate={{
+                    opacity:1
+                }}
+                whileHover={{
+                    scale:1.2
+                }}
+                whileTap={{
+                    scale:0.5,
+                    opacity:0,
+                    transition:{
+                        //type:'spring'
+                    }
+                }}
+                onClick={()=>setStart(true)}>
+                <Typography variant="h3"
+                sx={{
+                    color: '#fff',
+                }}
+                >
+                    Start!
+                </Typography>
+            </Button>
+        </Grid>
+        )
     }
     return (
         <>
