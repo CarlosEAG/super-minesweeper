@@ -9,7 +9,9 @@ export const Timer = () => {
     + `${seconds <10 ? '0' : ''}${seconds}:`
     + `${milliseconds <10 ? '0' : ''}${milliseconds/10 >> 0}`
     return <Grid item sx={{minWidth:105}}>
-    <Typography variant="h4">
+    <Typography 
+        variant="h4"
+        sx={{textShadow: '0 0 10px #fff, 0 0 30px #00ffcc, 0 0 60px #00ffcc'}}>
         {timeStr}
     </Typography>
     
