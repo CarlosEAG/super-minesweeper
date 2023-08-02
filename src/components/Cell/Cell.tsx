@@ -31,6 +31,9 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
 
     const handleClickEvent = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.preventDefault();
+        if(event.button!==0){
+            return;
+        }
         if(gameState.state === GAME_STATE.GAMEOVER){
             return;
         }
@@ -53,7 +56,6 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
     }
 
     const [displayState, content] = getDisplayState(state,hasMine,adjacentMines, gameState.state === GAME_STATE.GAMEOVER);
-    
     return <Box
         sx={{
             color: 'white',
@@ -65,26 +67,10 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
             fontSize:{xs:12, sm:16, md: 16},
             ...(cellStyles[displayState]),
         }}
-        onClick={handleClickEvent}
+        onMouseDownCapture={handleClickEvent}
         onContextMenu={handleContextMenuEvent}
 
         animate={variant}
-        whileHover={{
-            scale: ["115%", "110%"],
-            opacity: [0.5, 1],
-            borderRadius: 0,
-            transition: {
-                type: 'spring',
-            },
-        }}
-        whileTap={{
-            scale: ["95%", "150%"],
-            opacity: 0.75,
-            borderRadius: 3,
-            transition: {
-                type: 'spring',
-            },
-        }}
         variants={{
             initial: {
                 opacity: 1,
@@ -92,15 +78,24 @@ export const Cell: React.FC<CellProps> = ({cellId}) => {
             },
             uncovered: {
                 opacity: 1,
-                rotate:0, //mf hack that somehow makes the animate value to actually go back to initial
-                scale: "170%",
+                scale: ["45%","110%"],
                 transition: {
                     type: 'spring',
-                    duration: 0.2,
-                    onComplete: () => setVariant('initial'),
+                    duration: 0.335,
+                    onComplete: () => setVariant('initial')
                 }
             },
+            hovered: {
+                scale: ["105%", "125%"],
+                opacity: [0.5, 1],
+                borderRadius: 0,
+                transition: {
+                    duration:0.2,
+                },
+            },
         }}
+        onMouseEnter={()=>setVariant((currentVariant)=>currentVariant === 'initial' ? 'hovered':currentVariant)}
+        onMouseLeave={()=> setVariant((currentVariant)=>currentVariant === 'hovered' ? 'initial' : currentVariant)}
         >
             {content}
         </Box>
