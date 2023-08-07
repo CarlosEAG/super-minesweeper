@@ -30,10 +30,15 @@ export const Dial= () => {
         <SpeedDial
           ariaLabel="SpeedDial"
           sx={{ position: 'absolute', bottom: 16, right: 16 }}
+          FabProps={{ sx:{
+            backgroundColor:'rgba(0,0,0,0) !important',
+            boxShadow:'0 0 1px #fff, 0 0 10px #3399ff, 0 0 3px #3399ff',
+          } }}
           icon={<SpeedDialIcon />}
         >
           {actions.map((action) => (
             <SpeedDialAction
+            sx={{backgroundColor: '#00aaff !important', color: '#fff', boxShadow:'0 0 1px #fff, 0 0 10px #3399ff, 0 0 3px #3399ff',}}
               key={action.name}
               icon={action.icon}
               tooltipTitle={action.name}

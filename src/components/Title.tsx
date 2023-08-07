@@ -1,10 +1,13 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { useEffect, useRef, useState } from "react";
 import { useGameContext } from "../hooks/useGameContext";
 import { LightBanner } from "./LightBanner";
 import { useNavigate } from "react-router-dom";
 import { TitleHeader } from "./TitleHeader";
+import { Typography } from "@mui/material";
+import Button from "./Custom/Button";
+import MotionGrid from "./Custom/Grid";
 
 export const Title = () => {
     const {audio} = useGameContext();
@@ -18,13 +21,40 @@ export const Title = () => {
         audio.playTitle();
     },[start]);
 
-    if(!start){
-        return <div onClick={()=>setStart(true)}>
-        Start!
-      </div>
-    }
     return (
-        <>
+        <AnimatePresence>
+            {!start ? 
+            <MotionGrid container key="leGrid" justifyContent="center" alignItems="center" sx={{position:'absolute', left: 0, width: '100%', height:'100%',}}
+            exit={{
+                scale:0,
+                opacity:0,
+                
+            }}>
+            
+            <Button key="leButton" size="large" variant="outlined" sx={{
+            boxShadow: "0 0 1px #fff, 0 0 10px #3399ff, 0 0 3px #3399ff",
+            }}
+            initial={{
+                opacity:0
+            }}
+            animate={{
+                opacity:1
+            }}
+            whileHover={{
+                scale:1.335
+            }}
+            onClick={()=>setStart(true)}>
+            <Typography variant="h3"
+            sx={{
+                color: '#fff',
+            }}
+            >
+                Start!
+            </Typography>
+        </Button>
+    </MotionGrid>
+    : 
+    <>
         <motion.div
         ref={fullTitleRef}
         variants={{
@@ -64,5 +94,7 @@ export const Title = () => {
             bottom:'Deluxe Collector\'s Fancy Reloaded Edition Plus'
         }}/>
         </>
+    }
+        </AnimatePresence>
     );
 }

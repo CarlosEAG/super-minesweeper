@@ -1,6 +1,8 @@
+import { BoardDimensions } from "../models/BoardDimensions";
 import { CELL_STATE } from "../models/Cell";
 import { GAME_STATE_ACTION, GameActionType } from "../models/GameAction";
 import { GAME_STATE, GameStateType } from "../models/GameState";
+import { DifficultyConfiguration, difficulty } from "../models/Settings";
 import { generateBoard } from "../utils/api/generateBoard";
 import { getAdjacentCells } from "../utils/api/getAdjacentCells";
 import { getCellsToBeMined } from "../utils/api/getCellsToBeMined";
@@ -12,15 +14,22 @@ const nextCellStates = {
     [CELL_STATE.FLAGGED]: CELL_STATE.QUESTION_MARKED,
     [CELL_STATE.UNCOVERED]: CELL_STATE.UNCOVERED,
 };
+
+const difficultyConfig: Record<difficulty, DifficultyConfiguration>= {
+    'Beginner': {size:{x: 9, y: 9}, mines: 10},
+    'Intermediate': {size:{x: 12, y: 12}, mines: 50},
+    'Expert': {size:{x: 17, y: 17}, mines: 80},
+    'Custom': {size:{x: 0, y: 0}, mines: 0},
+}
 export const GameStateReducer = (gameState: GameStateType, action: GameActionType ): GameStateType => {
     const {type, payload} = action;
     switch(type) {
         case GAME_STATE_ACTION.INITIALIZE: {
-            const board = generateBoard(gameState.settings.size)
-            return {...gameState, flags: gameState.settings.mines, cellsLeft: gameState.settings.size.x * gameState.settings.size.y, lastAmountUncovered: 0, state: GAME_STATE.INITIALIZED, board, initialized: true};
+            const board = generateBoard(gameState.settings.configuration.size)
+            return {...gameState, flags: gameState.settings.configuration.mines, cellsLeft: gameState.settings.configuration.size.x * gameState.settings.configuration.size.y, lastAmountUncovered: 0, state: GAME_STATE.INITIALIZED, board, initialized: true};
         }
         case GAME_STATE_ACTION.PLACE_MINES:{
-            const {board, settings:{size, mines}} = gameState;
+            const {board, settings:{configuration:{size, mines}}} = gameState;
             const {clickedCellId} = payload;
             const ids = getCellsToBeMined(board, mines, clickedCellId);
             const adjacentIds = ids.flatMap(id => getAdjacentCells(size, id));
@@ -91,11 +100,12 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
         }
         case GAME_STATE_ACTION.SIZE_UPDATE: {
             const {x, y} = payload;
-            return {...gameState, settings: {...gameState.settings, size: {x, y}}};
+            return {...gameState, settings: {...gameState.settings, configuration:{...gameState.settings.configuration, size: {x, y}}}};
         }
         case GAME_STATE_ACTION.DIFFICULTY_UPDATE: {
-            const {difficulty} = payload;
-            return {...gameState, settings: {...gameState.settings, difficulty}};
+            const {difficulty, customConfig} = payload;
+            const configuration = customConfig || difficultyConfig[difficulty as difficulty];
+            return {...gameState, settings: {...gameState.settings, difficulty, configuration}};
         }
         case GAME_STATE_ACTION.CYCLE_CELL: {
             const {clickedCellId} = payload;
@@ -112,7 +122,7 @@ export const GameStateReducer = (gameState: GameStateType, action: GameActionTyp
             if(currentState === CELL_STATE.COVERED){
                 flags -= 1;
             }
-            if(newState === CELL_STATE.COVERED && flags<gameState.settings.mines){
+            if(newState === CELL_STATE.COVERED && flags<gameState.settings.configuration.mines){
                 flags += 1;
             }
             return {

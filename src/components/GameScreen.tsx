@@ -6,6 +6,7 @@ import { Smiley } from "./Smiley"
 import { Flags } from "./Flags"
 import { useGameContext } from "../hooks/useGameContext"
 import { GAME_STATE } from "../models/GameState"
+import { LightBanner } from "./LightBanner"
 
 export const GameScreen = () => {   
     const {gameState:{state},init} = useGameContext();
@@ -15,6 +16,9 @@ export const GameScreen = () => {
         }
     }
     return (
+        <>
+        {state === GAME_STATE.GAMEOVER && <LightBanner text="Game Over" color="red" loop/>}
+        {state === GAME_STATE.WIN && <LightBanner text="You Win!" color="cyan" loop/>}
         <Screen onAnimationComplete={handleInit}>
             <Grid 
             layout 
@@ -24,7 +28,10 @@ export const GameScreen = () => {
                 <Smiley/>
                 <Flags/>
             </Grid>
-            <Board/>
+            <Grid container justifyContent="center">
+                <Board/>
+            </Grid>
         </Screen>
+        </>
     )
 }

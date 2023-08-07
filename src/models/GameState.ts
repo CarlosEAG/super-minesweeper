@@ -1,4 +1,5 @@
 import { Board } from "./Board";
+import { Settings } from "./Settings";
 export enum GAME_STATE {
     MAIN,
     INITIALIZED,
@@ -24,12 +25,5 @@ export interface GameStateType {
     flags: number;
     cellsLeft: number;
     lastAmountUncovered: number;
-    settings: {
-        size: {
-            x: number;
-            y: number;
-        };
-        mines: number;
-        difficulty: 'beginner' | 'intermediate' | 'expert' | 'custom'
-    };
+    settings: Settings;
 }

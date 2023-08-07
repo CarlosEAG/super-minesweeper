@@ -1,5 +1,4 @@
 import { Grid } from "@mui/material";
-import { motion } from "framer-motion";
 import React from "react";
 import MotionGrid from "./Custom/Grid";
 
@@ -10,7 +9,14 @@ interface ScreenType {
 
 export const Screen = ({children, onAnimationComplete}: ScreenType)=>{
     return (
-        <MotionGrid container justifyContent="center" sx={{paddingTop:10}}
+        <MotionGrid container justifyContent="center" alignItems="center"
+            sx={{
+                //paddingTop:10,
+                position:'absolute',
+                top:0,
+                left:0,
+                height:'100%',
+            }}
             initial={{
                 scale:0,
             }}

@@ -4,6 +4,10 @@ import mine from "../assets/sounds/BombExplode.wav";
 import flagged from "../assets/sounds/SquareFlagged.wav";
 import win from "../assets/sounds/AllSquaresCleared.wav";
 import title from"../assets/sounds/TitleX2.wav";
+import beginner from "../assets/sounds/Begginer.wav";
+import intermediate from "../assets/sounds/Intermediate.wav";
+import expert from "../assets/sounds/Expert.wav";
+import custom from "../assets/sounds/Custom.wav";
 import { useSoundPool } from "./useSoundPool";
 import { useCallback } from "react";
 
@@ -16,6 +20,10 @@ export const useGameAudio = () => {
         flagged,
         win,
         title,
+        beginner,
+        intermediate,
+        expert,
+        custom,
     ]);
     const play = useCallback((sound: string) => {
         soundPool.play(sound);
@@ -27,6 +35,10 @@ export const useGameAudio = () => {
         playWin:   () => play(win),
         playGameover:   () => play(mine),
         playTitle: () => play(title),
+        playBeginner: () => play(beginner),
+        playIntermediate: () => play(intermediate),
+        playExpert: () => play(expert),
+        playCustom: () => play(custom),
     }
     
     
